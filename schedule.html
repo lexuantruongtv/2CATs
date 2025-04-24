@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Quản Lý Lịch Trình Cá Nhân</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h1>Quản Lý Lịch Trình Cá Nhân</h1>
+
+<div class="schedule-form">
+  <label for="date">Ngày:</label>
+  <input type="date" id="date">
+
+  <label for="task">Nội dung công việc:</label>
+  <input type="text" id="task" placeholder="Nhập công việc...">
+
+  <button onclick="addSchedule()">Thêm vào lịch</button>
+</div>
+
+<div class="schedule-list">
+  <h2>Lịch trình của bạn</h2>
+  <ul id="schedule"></ul>
+</div>
+
+<script>
+  function addSchedule() {
+    const date = document.getElementById('date').value;
+    const task = document.getElementById('task').value;
+
+    if (date === '' || task === '') {
+      alert('Vui lòng nhập đầy đủ ngày và nội dung công việc.');
+      return;
+    }
+
+    const li = document.createElement('li');
+    li.innerHTML = `<strong>${date}:</strong> ${task} 
+      <button class="delete-btn" onclick="this.parentElement.remove()">Xóa</button>`;
+    
+    document.getElementById('schedule').appendChild(li);
+
+    // Clear input fields
+    document.getElementById('date').value = '';
+    document.getElementById('task').value = '';
+  }
+</script>
+
+</body>
+</html>
