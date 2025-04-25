@@ -6,7 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Đăng nhập / Đăng ký</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="app.js" defer></script>
 </head>
+<div id="app">Loading...</div>
 
 <body class="min-h-screen bg-[#9BE4FF] flex flex-col items-center justify-center p-4">
 
@@ -20,14 +22,14 @@
   <div class="w-full max-w-xs bg-[#FFD7E3] p-4 rounded-xl shadow space-y-3">
 
     <!-- Đăng nhập -->
-    <form id="loginForm" class="space-y-3">
+    <form id="loginForm" class="space-y-3" action="javascript:login()">
       <div>
         <label class="text-sm font-medium text-gray-700">Tên đăng nhập :</label>
-        <input type="text" class="w-full mt-1 p-2 rounded-md border" />
+        <input id="usernameL" name="usernameL" type="text" class="w-full mt-1 p-2 rounded-md border" />
       </div>
       <div>
         <label class="text-sm font-medium text-gray-700">Mật khẩu :</label>
-        <input type="password" class="w-full mt-1 p-2 rounded-md border" />
+        <input id="passwordL" name="passwordL" type="password" class="w-full mt-1 p-2 rounded-md border" />
       </div>
 
       <div class="flex justify-between text-sm">
@@ -54,18 +56,18 @@
 
 
     <!-- Đăng ký -->
-    <form id="registerForm" class="space-y-3 hidden">
+    <form id="registerForm" class="space-y-3 hidden" action="javascript:register()">
       <div>
         <label class="text-sm font-medium text-gray-700">Tên đăng nhập :</label>
-        <input type="text" class="w-full mt-1 p-2 rounded-md border" />
+        <input id="usernameR" name="usernameR" type="text" class="w-full mt-1 p-2 rounded-md border" />
       </div>
       <div>
         <label class="text-sm font-medium text-gray-700">Tên người dùng :</label>
-        <input type="text" class="w-full mt-1 p-2 rounded-md border" />
+        <input id="nameR" name="nameR" type="text" class="w-full mt-1 p-2 rounded-md border" />
       </div>
       <div>
         <label class="text-sm font-medium text-gray-700">Mật khẩu :</label>
-        <input type="password" class="w-full mt-1 p-2 rounded-md border" />
+        <input id="passwordR" name="passwordR" type="password" class="w-full mt-1 p-2 rounded-md border" />
       </div>
       <div>
         <label class="text-sm font-medium text-gray-700">Nhập lại mật khẩu :</label>
@@ -92,6 +94,66 @@
 
   <!-- Footer -->
   <p class="text-xs text-gray-400 text-center mt-8">version 0.1</p>
+
+  <!-- Dashboard page template -->
+  <template id="dashboard">
+    <section class="dashboard-page">
+      <header class="dashboard-header">
+        <img class="dashboard-logo" src="logo.svg" alt="Squirrel Banking Logo">
+        <h1 class="dashboard-title hide-xs">Squirrel Banking</span>
+          <button onclick="logout()">Logout</button>
+      </header>
+      <div class="balance">
+        <div>Balance</div>
+        <span id="balance"></span>
+        <span id="currency"></span>
+      </div>
+      <div class="dashboard-content">
+        <div class="transactions-title">
+          <h2 id="description"></h2>
+          <button onclick="addTransaction()">Add transaction</button>
+        </div>
+        <table class="transactions-table" aria-label="Transactions">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Object</th>
+              <th>Amount</th>
+            </tr>
+          </thead>
+          <tbody id="transactions"></tbody>
+        </table>
+      </div>
+    </section>
+    <section id="transactionDialog" class="dialog">
+      <div class="dialog-content">
+        <h2 class="text-center">Add transaction</h2>
+        <form id="transactionForm" action="javascript:void(0)">
+          <label for="date">Date</label>
+          <input id="date" name="date" type="date" required>
+          <label for="object">Object</label>
+          <input id="object" name="object" type="text" maxlength="50" required>
+          <label for="amount">Amount (use negative value for debit)</label>
+          <input id="amount" name="amount" type="number" value="0" step="any" required>
+          <div id="transactionError" class="error" role="alert"></div>
+          <div class="dialog-buttons">
+            <button type="button" class="button-alt" formaction="javascript:cancelTransaction()"
+              formnovalidate>Cancel</button>
+            <button formaction="javascript:confirmTransaction()">OK</button>
+          </div>
+        </form>
+      </div>
+    </section>
+  </template>
+
+  <!-- Transaction row template -->
+  <template id="transaction">
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+  </template>
 
   <!-- Script chuyển đổi -->
   <script>
