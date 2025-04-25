@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  client:
+    build: ./client
+    ports:
+      - "8080:80"
+    networks:
+      - schedule-net
+
+  server:
+    build: ./server
+    ports:
+      - "5000:5000"
+    networks:
+      - schedule-net
+
+networks:
+  schedule-net:
+    driver: bridge
