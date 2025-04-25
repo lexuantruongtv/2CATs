@@ -1,71 +1,112 @@
 <!DOCTYPE html>
 <html lang="vi">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Đăng nhập</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-  </head>
-  <body class="min-h-screen bg-white flex flex-col items-center justify-center relative p-4">
-   
 
-    <!-- Ảnh mèo -->
-    <img src="images/cat-login.png" alt="Cute cat" class="w-30 mb-4"/>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Đăng nhập / Đăng ký</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
 
-    <!-- Form đăng nhập -->
-    <div class="bg-pink-100 p-4 rounded-xl w-full max-w-xs shadow space-y-3">
+<body class="min-h-screen bg-[#9BE4FF] flex flex-col items-center justify-center p-4">
+
+  <!-- Avatar mèo Đăng nhập -->
+  <img id="loginCat" src="images/cat-login.png" alt="Cat Login" class="w-30 mb-4" />
+
+  <!-- Avatar mèo Đăng ký (ẩn lúc đầu) -->
+  <img id="registerCat" src="images/cat-register.png" alt="Cat Register" class="w-30 mb-4 hidden" />
+
+  <!-- Form container -->
+  <div class="w-full max-w-xs bg-[#FFD7E3] p-4 rounded-xl shadow space-y-3">
+
+    <!-- Đăng nhập -->
+    <form id="loginForm" class="space-y-3">
       <div>
         <label class="text-sm font-medium text-gray-700">Tên đăng nhập :</label>
-        <input
-          type="text"
-          class="w-full mt-1 p-2 rounded-md border focus:outline-none focus:ring-2 focus:ring-pink-400"
-        />
+        <input type="text" class="w-full mt-1 p-2 rounded-md border" />
       </div>
-
       <div>
         <label class="text-sm font-medium text-gray-700">Mật khẩu :</label>
-        <input
-          type="password"
-          class="w-full mt-1 p-2 rounded-md border focus:outline-none focus:ring-2 focus:ring-pink-400"
-        />
+        <input type="password" class="w-full mt-1 p-2 rounded-md border" />
       </div>
 
       <div class="flex justify-between text-sm">
-        <a href="#" class="text-blue-600 hover:underline">Quên mật khẩu?</a>
-        <a href="#" class="text-blue-600 hover:underline">Bạn chưa có tài khoản?</a>
+        <a href="#">Quên mật khẩu?</a>
+        <a href="#" onclick="toggleForm()" class="text-blue-600 hover:underline">Bạn chưa có tài khoản?</a>
       </div>
 
-      <button
-        class="bg-orange-400 text-white py-2 rounded-md w-full font-semibold hover:bg-orange-500 transition"
-      >
-        Đăng nhập
-      </button>
-    </div>
+      <button class="bg-orange-400 text-white py-2 rounded-md w-full hover:bg-orange-500">Đăng nhập</button>
 
-    <!-- Các nút đăng nhập mạng xã hội -->
-    <div class="mt-4 w-full max-w-xs space-y-2">
-      <button
-        class="w-full bg-red-100 text-red-600 border border-red-200 rounded-md py-2 flex items-center justify-center gap-2 hover:bg-red-200"
-      >
-        <img
-          src="https://cdn-icons-png.flaticon.com/128/281/281764.png"
-          class="w-5 h-5"
-        />
-        Đăng nhập bằng Google
-      </button>
+      <div class="mt-4 w-full max-w-xs space-y-2">
+        <button
+          class="w-full bg-red-50 text-red-600 border border-red-200 rounded-md py-2 flex items-center justify-center gap-2 hover:bg-red-200">
+          <img src="https://cdn-icons-png.flaticon.com/128/281/281764.png" class="w-5 h-5" />
+          Đăng nhập bằng Google
+        </button>
 
-      <button
-        class="w-full bg-blue-100 text-blue-600 border border-blue-200 rounded-md py-2 flex items-center justify-center gap-2 hover:bg-blue-200"
-      >
-        <img
-          src="https://cdn-icons-png.flaticon.com/128/174/174848.png"
-          class="w-5 h-5"
-        />
-        Đăng nhập bằng Facebook
-      </button>
-        
-    </div>
-   <!-- Version -->
-   <p class="text-xs text-gray-400 text-center mt-8">Version 0.1</p>
-  </body>
+        <button
+          class="w-full bg-blue-100 text-blue-600 border border-blue-200 rounded-md py-2 flex items-center justify-center gap-2 hover:bg-blue-200">
+          <img src="https://cdn-icons-png.flaticon.com/128/174/174848.png" class="w-5 h-5" />
+          Đăng nhập bằng Facebook
+        </button>
+      </div>
+    </form>
+
+
+    <!-- Đăng ký -->
+    <form id="registerForm" class="space-y-3 hidden">
+      <div>
+        <label class="text-sm font-medium text-gray-700">Tên đăng nhập :</label>
+        <input type="text" class="w-full mt-1 p-2 rounded-md border" />
+      </div>
+      <div>
+        <label class="text-sm font-medium text-gray-700">Tên người dùng :</label>
+        <input type="text" class="w-full mt-1 p-2 rounded-md border" />
+      </div>
+      <div>
+        <label class="text-sm font-medium text-gray-700">Mật khẩu :</label>
+        <input type="password" class="w-full mt-1 p-2 rounded-md border" />
+      </div>
+      <div>
+        <label class="text-sm font-medium text-gray-700">Nhập lại mật khẩu :</label>
+        <input type="password" class="w-full mt-1 p-2 rounded-md border" />
+      </div>
+
+      <div class="flex items-start text-sm mt-2">
+        <input type="checkbox" id="agree" required class="mt-1 mr-2" />
+        <label for="agree" class="text-gray-700">
+          Tôi đồng ý với
+          <a href="terms.html" target="_blank" class="text-blue-600 hover:underline">Điều khoản dịch vụ</a><br>
+          và
+          <a href="privacy.html" target="_blank" class="text-blue-600 hover:underline">Chính sách bảo mật</a>
+        </label>
+      </div>
+
+      <div class="text-sm text-center">
+        <a href="#" onclick="toggleForm()" class="text-blue-600 hover:underline">Đã có tài khoản? Đăng nhập</a>
+      </div>
+
+      <button class="bg-orange-400 text-white py-2 rounded-md w-full hover:bg-orange-500">Đăng ký</button>
+    </form>
+  </div>
+
+  <!-- Footer -->
+  <p class="text-xs text-gray-400 text-center mt-8">version 0.1</p>
+
+  <!-- Script chuyển đổi -->
+  <script>
+    function toggleForm() {
+      const loginForm = document.getElementById('loginForm');
+      const registerForm = document.getElementById('registerForm');
+      const loginCat = document.getElementById('loginCat');
+      const registerCat = document.getElementById('registerCat');
+
+      loginForm.classList.toggle('hidden');
+      registerForm.classList.toggle('hidden');
+      loginCat.classList.toggle('hidden');
+      registerCat.classList.toggle('hidden');
+    }
+  </script>
+</body>
+
 </html>
