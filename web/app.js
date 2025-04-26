@@ -10,7 +10,6 @@ function showForm(formId) {
 
   document.getElementById(formId).classList.remove('hidden');
 
-  // Đổi hình mèo tuỳ form
   if (formId === 'registerForm') {
     loginCat.classList.add('hidden');
     registerCat.classList.remove('hidden');
@@ -20,7 +19,7 @@ function showForm(formId) {
   }
 }
 
-// Đăng ký người dùng
+// Đăng ký
 function register() {
   const username = document.getElementById('usernameR').value.trim();
   const phone = document.getElementById('phoneR').value.trim();
@@ -28,36 +27,35 @@ function register() {
   const confirmPassword = document.getElementById('confirmPasswordR').value;
   const agree = document.getElementById('agree').checked;
 
-  // Kiểm tra các trường rỗng
   if (!username || !phone || !password || !confirmPassword) {
     alert('Vui lòng điền đầy đủ thông tin!');
     return;
   }
 
-  // Kiểm tra mật khẩu khớp nhau
   if (password !== confirmPassword) {
     alert('Mật khẩu và Nhập lại mật khẩu không khớp!');
     return;
   }
 
-  // Kiểm tra đã đồng ý điều khoản chưa
   if (!agree) {
-    alert('Bé phải đồng ý với Điều khoản dịch vụ và Chính sách bảo mật nha!');
+    alert('Bé phải đồng ý với Điều khoản và Chính sách nha!');
     return;
   }
 
-  // Nếu tất cả hợp lệ
+  const users = JSON.parse(localStorage.getItem('users')) || [];
+  users.push({ username, phone, password });
+  localStorage.setItem('users', JSON.stringify(users));
+
   alert('Đăng ký thành công! 🐱🎉');
-  // Ở đây sau này bé có thể gọi API gửi dữ liệu lên server nè!
+  showForm('loginForm');
 }
 
-
-// Đăng nhập người dùng
+// Đăng nhập
 function login() {
-  const username = document.getElementById('usernameL').value;
+  const username = document.getElementById('usernameL').value.trim();
   const password = document.getElementById('passwordL').value;
 
-  if (username === '' || password === '') {
+  if (!username || !password) {
     alert('Vui lòng nhập đầy đủ thông tin!');
     return;
   }
@@ -65,21 +63,15 @@ function login() {
   const users = JSON.parse(localStorage.getItem('users')) || [];
   const user = users.find(u => u.username === username);
 
-  if (!user) {
+  if (!user || user.password !== password) {
     alert('Sai tên đăng nhập hoặc mật khẩu!');
     return;
   }
 
-  // Kiểm tra mật khẩu
-  if (user.password !== password) {
-    alert('Sai mật khẩu!');
-    return;
-  }
-
-  showDashboard(user.name);
+  showDashboard(user.username);
 }
 
-// Hiển thị dashboard sau khi đăng nhập
+// Hiển thị dashboard
 function showDashboard(name) {
   document.body.innerHTML = '';
 
@@ -91,7 +83,6 @@ function showDashboard(name) {
 
   const dashboardContent = dashboardTemplate.content.cloneNode(true);
 
-  // Thêm nội dung welcome
   const welcomeText = document.createElement('h1');
   welcomeText.className = 'text-3xl font-bold mb-6 text-center';
   welcomeText.textContent = `Chào mừng, ${name}!`;
@@ -101,7 +92,6 @@ function showDashboard(name) {
   logoutBtn.className = 'bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600';
   logoutBtn.onclick = logout;
 
-  // Thêm vào body
   document.body.className = 'min-h-screen flex flex-col items-center justify-center bg-[#9BE4FF] p-4';
   document.body.appendChild(welcomeText);
   document.body.appendChild(dashboardContent);
@@ -111,4 +101,14 @@ function showDashboard(name) {
 // Đăng xuất
 function logout() {
   location.reload();
+}
+
+// Quên mật khẩu (gửi liên kết)
+function forgotPassword() {
+  const phone = document.getElementById('phoneForgot').value.trim();
+  if (!phone) {
+    alert('Vui lòng nhập số điện thoại!');
+    return;
+  }
+  alert('Liên kết khôi phục đã được gửi tới số điện thoại của bé (giả lập thôi nhé hehe 🐾)');
 }
