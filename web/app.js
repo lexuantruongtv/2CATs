@@ -1,18 +1,16 @@
-// Function to show different forms
+// Chuyển đổi giữa các form
 function showForm(formId) {
   const forms = ['loginForm', 'registerForm', 'forgotForm'];
   const loginCat = document.getElementById('loginCat');
   const registerCat = document.getElementById('registerCat');
 
-  // Hide all forms
   forms.forEach(id => {
     document.getElementById(id).classList.add('hidden');
   });
 
-  // Show the selected form
   document.getElementById(formId).classList.remove('hidden');
 
-  // Toggle cat images based on form
+  // Đổi hình mèo tuỳ form
   if (formId === 'registerForm') {
     loginCat.classList.add('hidden');
     registerCat.classList.remove('hidden');
@@ -22,55 +20,90 @@ function showForm(formId) {
   }
 }
 
-// Function to handle login
-function login() {
-  const username = document.getElementById('usernameL').value;
-  const password = document.getElementById('passwordL').value;
-
-  // Handle login logic here
-  if (username && password) {
-    console.log('Logging in with', username, password);
-    // Replace with your actual login logic (e.g., API request)
-    alert('Login Successful!');
-  } else {
-    alert('Please enter both username and password.');
-  }
-}
-
-// Function to handle register
+// Đăng ký người dùng
 function register() {
   const username = document.getElementById('usernameR').value;
   const name = document.getElementById('nameR').value;
   const password = document.getElementById('passwordR').value;
+  const confirmPassword = document.getElementById('confirmPasswordR').value;
 
-  // Handle register logic here
-  if (username && name && password) {
-    console.log('Registering with', username, name, password);
-    // Replace with your actual registration logic (e.g., API request)
-    alert('Registration Successful!');
-  } else {
-    alert('Please fill all the fields.');
+  if (username === '' || name === '' || password === '' || confirmPassword === '') {
+    alert('Vui lòng điền đầy đủ thông tin!');
+    return;
   }
-}
 
-// Function to toggle between login and register forms
-function toggleForm() {
+  if (password !== confirmPassword) {
+    alert('Mật khẩu không khớp!');
+    return;
+  }
+
+  const users = JSON.parse(localStorage.getItem('users')) || [];
+  const existingUser = users.find(u => u.username === username);
+
+  if (existingUser) {
+    alert('Tên đăng nhập đã tồn tại!');
+    return;
+  }
+
+  users.push({ username, name, password });
+  localStorage.setItem('users', JSON.stringify(users));
+
+  alert('Đăng ký thành công! Bạn có thể đăng nhập ngay bây giờ.');
+
   showForm('loginForm');
 }
 
-// Function to handle forgot password
-function forgotPassword() {
-  const email = document.querySelector('input[type="email"]').value;
-  if (email) {
-    console.log('Sending reset link to', email);
-    // Replace with your actual password reset logic (e.g., API request)
-    alert('Password reset link sent!');
-  } else {
-    alert('Please enter your email address.');
+// Đăng nhập người dùng
+function login() {
+  const username = document.getElementById('usernameL').value;
+  const password = document.getElementById('passwordL').value;
+
+  if (username === '' || password === '') {
+    alert('Vui lòng nhập đầy đủ thông tin!');
+    return;
   }
+
+  const users = JSON.parse(localStorage.getItem('users')) || [];
+  const user = users.find(u => u.username === username && u.password === password);
+
+  if (!user) {
+    alert('Sai tên đăng nhập hoặc mật khẩu!');
+    return;
+  }
+
+  showDashboard(user.name);
 }
 
-// Automatically show the login form when the page loads
-window.onload = function () {
-  showForm('loginForm');
-};
+// Hiển thị dashboard sau khi đăng nhập
+function showDashboard(name) {
+  document.body.innerHTML = '';
+
+  const dashboardTemplate = document.getElementById('dashboard');
+  if (!dashboardTemplate) {
+    alert('Không tìm thấy dashboard template!');
+    return;
+  }
+
+  const dashboardContent = dashboardTemplate.content.cloneNode(true);
+
+  // Thêm nội dung welcome
+  const welcomeText = document.createElement('h1');
+  welcomeText.className = 'text-3xl font-bold mb-6 text-center';
+  welcomeText.textContent = `Chào mừng, ${name}!`;
+
+  const logoutBtn = document.createElement('button');
+  logoutBtn.textContent = 'Đăng xuất';
+  logoutBtn.className = 'bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600';
+  logoutBtn.onclick = logout;
+
+  // Thêm vào body
+  document.body.className = 'min-h-screen flex flex-col items-center justify-center bg-[#9BE4FF] p-4';
+  document.body.appendChild(welcomeText);
+  document.body.appendChild(dashboardContent);
+  document.body.appendChild(logoutBtn);
+}
+
+// Đăng xuất
+function logout() {
+  location.reload();
+}
