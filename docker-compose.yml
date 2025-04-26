@@ -1,12 +1,32 @@
-version: "3.8"
+version: '3.8'
 
 services:
-  client:
-    build: ./client
+  mongo:
+    image: mongo
+    container_name: mongo
     ports:
-      - "3000:80"
+      - '27017:27017'
+    volumes:
+      - mongo-data:/data/db
 
-  server:
-    build: ./server
+  api:
+    build: ./api
+    container_name: api
     ports:
-      - "5000:5000"
+      - '5000:5000'
+    volumes:
+      - ./api:/app
+      - /app/node_modules
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/schedule-db
+    depends_on:
+      - mongo
+
+  web:
+    build: ./web
+    container_name: web
+    ports:
+      - '8080:80'
+
+volumes:
+  mongo-data:
