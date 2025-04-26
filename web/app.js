@@ -22,42 +22,35 @@ function showForm(formId) {
 
 // Đăng ký người dùng
 function register() {
-  const username = document.getElementById('usernameR').value;
-  const name = document.getElementById('nameR').value;
+  const username = document.getElementById('usernameR').value.trim();
+  const phone = document.getElementById('phoneR').value.trim();
   const password = document.getElementById('passwordR').value;
   const confirmPassword = document.getElementById('confirmPasswordR').value;
+  const agree = document.getElementById('agree').checked;
 
-  if (username === '' || name === '' || password === '' || confirmPassword === '') {
+  // Kiểm tra các trường rỗng
+  if (!username || !phone || !password || !confirmPassword) {
     alert('Vui lòng điền đầy đủ thông tin!');
     return;
   }
 
+  // Kiểm tra mật khẩu khớp nhau
   if (password !== confirmPassword) {
-    alert('Mật khẩu không khớp!');
+    alert('Mật khẩu và Nhập lại mật khẩu không khớp!');
     return;
   }
 
-  const users = JSON.parse(localStorage.getItem('users')) || [];
-  const existingUser = users.find(u => u.username === username);
-
-  if (existingUser) {
-    alert('Tên đăng nhập đã tồn tại!');
+  // Kiểm tra đã đồng ý điều khoản chưa
+  if (!agree) {
+    alert('Bé phải đồng ý với Điều khoản dịch vụ và Chính sách bảo mật nha!');
     return;
   }
 
-  // Kiểm tra độ mạnh của mật khẩu
-  if (password.length < 6) {
-    alert('Mật khẩu phải có ít nhất 6 ký tự!');
-    return;
-  }
-
-  users.push({ username, name, password });
-  localStorage.setItem('users', JSON.stringify(users));
-
-  alert('Đăng ký thành công! Bạn có thể đăng nhập ngay bây giờ.');
-
-  showForm('loginForm');
+  // Nếu tất cả hợp lệ
+  alert('Đăng ký thành công! 🐱🎉');
+  // Ở đây sau này bé có thể gọi API gửi dữ liệu lên server nè!
 }
+
 
 // Đăng nhập người dùng
 function login() {
