@@ -45,6 +45,12 @@ function register() {
     return;
   }
 
+  // Kiểm tra độ mạnh của mật khẩu
+  if (password.length < 6) {
+    alert('Mật khẩu phải có ít nhất 6 ký tự!');
+    return;
+  }
+
   users.push({ username, name, password });
   localStorage.setItem('users', JSON.stringify(users));
 
@@ -64,10 +70,16 @@ function login() {
   }
 
   const users = JSON.parse(localStorage.getItem('users')) || [];
-  const user = users.find(u => u.username === username && u.password === password);
+  const user = users.find(u => u.username === username);
 
   if (!user) {
     alert('Sai tên đăng nhập hoặc mật khẩu!');
+    return;
+  }
+
+  // Kiểm tra mật khẩu
+  if (user.password !== password) {
+    alert('Sai mật khẩu!');
     return;
   }
 
