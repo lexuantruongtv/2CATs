@@ -68,6 +68,8 @@ function login() {
     return;
   }
 
+  localStorage.setItem('name', user.name);
+
   // Chuyển đến trang dashboard
   window.location.href = 'dashboard.html';
 }
