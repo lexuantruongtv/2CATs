@@ -2,22 +2,88 @@
 <html lang="vi">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trang chủ</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="app.js" defer></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trang chủ - Lịch tháng</title>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="min-h-screen bg-[#9BE4FF] flex flex-col items-center justify-center p-4">
+<body class="bg-[#9BE4FF] min-h-screen flex flex-col items-center p-4 font-sans">
 
-    <h1 id="welcomeText" class="text-3xl font-bold mb-6 text-center">Chào mừng!</h1>
+  <!-- Thanh điều hướng trên cùng -->
+  <div class="w-full max-w-md bg-[#FFACC9] flex justify-around py-3 mb-4 rounded shadow">
+    <button class="text-white font-semibold">📅 LỊCH TRÌNH</button>
+    <button class="text-white font-semibold">📝 SỰ KIỆN</button>
+    <button class="text-white font-semibold">⚙️ CÀI ĐẶT</button>
+  </div>
 
-    <div class="text-center">
-        <p class="text-lg">Bạn đã đăng nhập vào hệ thống.</p>
-    </div>
+  <!-- Thanh tiêu đề -->
+  <div class="flex items-center justify-center mb-4">
+    <button class="text-2xl px-2">←</button>
+    <h1 class="text-2xl font-bold bg-[#FFA16C] text-white px-4 py-1 rounded">THÁNG 3</h1>
+    <button class="text-2xl px-2">→</button>
+  </div>
 
-    <button onclick="logout()" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Đăng xuất</button>
+  <!-- Bộ chọn chế độ hiển thị -->
+  <div class="grid grid-cols-4 gap-2 mb-4">
+    <button class="bg-white px-4 py-1 rounded shadow text-sm font-medium">Tháng</button>
+    <button class="bg-white px-4 py-1 rounded shadow text-sm font-medium">Tuần</button>
+    <button class="bg-white px-4 py-1 rounded shadow text-sm font-medium">Năm</button>
+    <button class="bg-white px-4 py-1 rounded shadow text-sm font-medium">Danh sách</button>
+  </div>
+
+  <!-- Lưới ngày trong tháng -->
+  <div class="w-full max-w-md grid grid-cols-7 gap-1 text-center text-sm">
+    <!-- Hàng tiêu đề thứ -->
+    <div class="font-bold text-[#3D3D3D]">Thứ 2</div>
+    <div class="font-bold text-[#3D3D3D]">Thứ 3</div>
+    <div class="font-bold text-[#3D3D3D]">Thứ 4</div>
+    <div class="font-bold text-[#3D3D3D]">Thứ 5</div>
+    <div class="font-bold text-[#3D3D3D]">Thứ 6</div>
+    <div class="font-bold text-[#3D3D3D]">Thứ 7</div>
+    <div class="font-bold text-[#3D3D3D]">CN</div>
+
+    <!-- Các ngày -->
+    <div class="bg-[#FFD6E7] p-2">24</div>
+    <div class="bg-[#FFD6E7] p-2">25</div>
+    <div class="bg-[#FFD6E7] p-2">26</div>
+    <div class="bg-[#FFD6E7] p-2">27</div>
+    <div class="bg-[#FFD6E7] p-2">28</div>
+    <div class="bg-[#FFD6E7] p-2">1</div>
+    <div class="bg-[#FFD6E7] p-2">2<br>• Đi họp<br>• Đi SN</div>
+
+    <div class="bg-[#FFD6E7] p-2">3</div>
+    <div class="bg-[#FFD6E7] p-2">4</div>
+    <div class="bg-[#FFD6E7] p-2">5</div>
+    <div class="bg-[#FFD6E7] p-2">6</div>
+    <div class="bg-[#FFD6E7] p-2">7<br>• Đóng tiền học</div>
+    <div class="bg-[#FFD6E7] p-2">8</div>
+    <div class="bg-[#FFD6E7] p-2">9</div>
+
+    <div class="bg-[#FFD6E7] p-2">10</div>
+    <div class="bg-[#FFD6E7] p-2">11</div>
+    <div class="bg-[#FFD6E7] p-2">12</div>
+    <div class="bg-[#FFD6E7] p-2">13</div>
+    <div class="bg-[#FFD6E7] p-2">14</div>
+    <div class="bg-[#FFD6E7] p-2">15</div>
+    <div class="bg-[#FFD6E7] p-2">16</div>
+
+    <div class="bg-[#FFD6E7] p-2">17</div>
+    <div class="bg-[#FFD6E7] p-2">18</div>
+    <div class="bg-[#FFD6E7] p-2">19</div>
+    <div class="bg-[#FFD6E7] p-2">20</div>
+    <div class="bg-[#FFD6E7] p-2">21</div>
+    <div class="bg-[#FFD6E7] p-2">22</div>
+    <div class="bg-[#FFD6E7] p-2">23</div>
+
+    <div class="bg-[#FFD6E7] p-2">24</div>
+    <div class="bg-[#FFD6E7] p-2">25</div>
+    <div class="bg-[#FFD6E7] p-2">26<br>• Tổ chức SN</div>
+    <div class="bg-[#FFD6E7] p-2">27</div>
+    <div class="bg-[#FFD6E7] p-2">28</div>
+    <div class="bg-[#FFD6E7] p-2">29</div>
+    <div class="bg-[#FFD6E7] p-2">30</div>
+  </div>
 
 </body>
 
