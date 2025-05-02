@@ -73,7 +73,6 @@ function login() {
 
 // Hiển thị dashboard
 function showDashboard(name) {
-  document.body.innerHTML = '';
 
   const dashboardTemplate = document.getElementById('dashboard');
   if (!dashboardTemplate) {

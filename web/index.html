@@ -123,29 +123,5 @@
     </div>
   </template>
 
-  <!-- Script chuyển đổi -->
-  <script>
-    function showForm(formId) {
-      const forms = ['loginForm', 'registerForm', 'forgotForm'];
-      const loginCat = document.getElementById('loginCat');
-      const registerCat = document.getElementById('registerCat');
-
-      forms.forEach(id => {
-        document.getElementById(id).classList.add('hidden');
-      });
-
-      document.getElementById(formId).classList.remove('hidden');
-
-      // Đổi hình mèo tuỳ theo form
-      if (formId === 'registerForm') {
-        loginCat.classList.add('hidden');
-        registerCat.classList.remove('hidden');
-      } else {
-        loginCat.classList.remove('hidden');
-        registerCat.classList.add('hidden');
-      }
-    }
-  </script>
-
 </body>
 </html>
