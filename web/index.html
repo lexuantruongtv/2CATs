@@ -71,7 +71,8 @@
       </div>
       <div>
         <label class="text-sm font-medium text-gray-700">Nhập lại mật khẩu :</label>
-        <input id="confirmPasswordR" name="confirmPasswordR" type="password" class="w-full mt-1 p-2 rounded-md border" />
+        <input id="confirmPasswordR" name="confirmPasswordR" type="password"
+          class="w-full mt-1 p-2 rounded-md border" />
       </div>
 
       <div class="flex items-start text-sm mt-2">
@@ -85,26 +86,26 @@
       </div>
 
       <div class="text-sm text-center">
-        <a href="#" onclick="toggleForm()" class="text-blue-600 hover:underline">Đã có tài khoản? Đăng nhập</a>
+        <a href="#" onclick="showForm('loginForm')" class="text-blue-600 hover:underline">Đã có tài khoản? Đăng nhập</a>
       </div>
 
       <button class="bg-orange-400 text-white py-2 rounded-md w-full hover:bg-orange-500">Đăng ký</button>
     </form>
-  </div>
-<!-- Thêm vào bên dưới form đăng ký -->
-<form id="forgotForm" class="space-y-3 hidden">
-  <div>
-    <label class="text-sm font-medium text-gray-700">Nhập email để khôi phục mật khẩu:</label>
-    <input type="email" class="w-full mt-1 p-2 rounded-md border" placeholder="Email của bạn" required />
-  </div>
 
-  <div class="text-sm text-right">
-    <a href="#" onclick="showForm('loginForm')" class="text-blue-600 hover:underline">Quay lại đăng nhập</a>
+    <!-- Quên mật khẩu -->
+    <form id="forgotForm" class="space-y-3 hidden">
+      <div>
+        <label class="text-sm font-medium text-gray-700">Nhập email để khôi phục mật khẩu:</label>
+        <input type="email" class="w-full mt-1 p-2 rounded-md border" placeholder="Email của bạn" required />
+      </div>
+
+      <div class="text-sm text-right">
+        <a href="#" onclick="showForm('loginForm')" class="text-blue-600 hover:underline">Quay lại đăng nhập</a>
+      </div>
+
+      <button class="bg-orange-400 text-white py-2 rounded-md w-full hover:bg-orange-500">Gửi liên kết</button>
+    </form>
   </div>
-
-  <button class="bg-orange-400 text-white py-2 rounded-md w-full hover:bg-orange-500">Gửi liên kết</button>
-</form>
-
   <!-- Footer -->
   <p class="text-xs text-gray-400 text-center mt-8">version 0.1</p>
 
@@ -121,13 +122,13 @@
       const forms = ['loginForm', 'registerForm', 'forgotForm'];
       const loginCat = document.getElementById('loginCat');
       const registerCat = document.getElementById('registerCat');
-  
+
       forms.forEach(id => {
         document.getElementById(id).classList.add('hidden');
       });
-  
+
       document.getElementById(formId).classList.remove('hidden');
-  
+
       // Đổi hình mèo tuỳ theo form
       if (formId === 'registerForm') {
         loginCat.classList.add('hidden');
@@ -138,7 +139,7 @@
       }
     }
   </script>
-  
+
 </body>
 
 </html>
