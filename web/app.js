@@ -75,7 +75,7 @@ function login() {
 }
 
 // Đăng xuất
-function logout() {
+function logout() {s
   window.location.href = 'index.html';
 }
 
