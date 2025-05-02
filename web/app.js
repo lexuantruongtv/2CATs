@@ -68,38 +68,15 @@ function login() {
     return;
   }
 
-  showDashboard(user.username);
-}
+  localStorage.setItem('name', user.name);
 
-// Hiển thị dashboard
-function showDashboard(name) {
-
-  const dashboardTemplate = document.getElementById('dashboard');
-  if (!dashboardTemplate) {
-    alert('Không tìm thấy dashboard template!');
-    return;
-  }
-
-  const dashboardContent = dashboardTemplate.content.cloneNode(true);
-
-  const welcomeText = document.createElement('h1');
-  welcomeText.className = 'text-3xl font-bold mb-6 text-center';
-  welcomeText.textContent = `Chào mừng, ${name}!`;
-
-  const logoutBtn = document.createElement('button');
-  logoutBtn.textContent = 'Đăng xuất';
-  logoutBtn.className = 'bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600';
-  logoutBtn.onclick = logout;
-
-  document.body.className = 'min-h-screen flex flex-col items-center justify-center bg-[#9BE4FF] p-4';
-  document.body.appendChild(welcomeText);
-  document.body.appendChild(dashboardContent);
-  document.body.appendChild(logoutBtn);
+  // Chuyển đến trang dashboard
+  window.location.href = 'dashboard.html';
 }
 
 // Đăng xuất
 function logout() {
-  location.reload();
+  window.location.href = 'index.html';
 }
 
 // Quên mật khẩu (gửi liên kết)

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,118 +11,112 @@
 
 <body class="min-h-screen bg-[#9BE4FF] flex flex-col items-center justify-center p-4">
   <!-- Avatar -->
-  <img id="loginCat" src="images/cat-login.png" alt="Cat Login" class="w-30 mb-4" />
-  <img id="registerCat" src="images/cat-register.png" alt="Cat Register" class="w-30 mb-4 hidden" />
+    <img id="loginCat" src="images/cat-login.png" alt="Cat Login" class="w-30 mb-4" />
+    <img id="registerCat" src="images/cat-register.png" alt="Cat Register" class="w-30 mb-4 hidden" />
 
-  <!-- Form container -->
-  <div class="w-full max-w-xs bg-[#FFD7E3] p-4 rounded-xl shadow space-y-3">
+    <!-- Form container -->
+    <div class="w-full max-w-xs bg-[#FFD7E3] p-4 rounded-xl shadow space-y-3">
 
-    <!-- Form Đăng nhập -->
-    <form id="loginForm" class="space-y-3" action="javascript:login()">
-      <div>
-        <label class="text-sm font-medium text-gray-700">Tên đăng nhập:</label>
-        <input id="usernameL" type="text" class="w-full mt-1 p-2 rounded-md border" />
-      </div>
-      <div>
-        <label class="text-sm font-medium text-gray-700">Mật khẩu:</label>
-        <input id="passwordL" type="password" class="w-full mt-1 p-2 rounded-md border" />
-      </div>
+      <!-- Form Đăng nhập -->
+      <form id="loginForm" class="space-y-3" action="javascript:login()">
+        <div>
+          <label class="text-sm font-medium text-gray-700">Tên đăng nhập:</label>
+          <input id="usernameL" type="text" class="w-full mt-1 p-2 rounded-md border" />
+        </div>
+        <div>
+          <label class="text-sm font-medium text-gray-700">Mật khẩu:</label>
+          <input id="passwordL" type="password" class="w-full mt-1 p-2 rounded-md border" />
+        </div>
 
-      <div class="flex justify-between text-sm">
-        <a href="#" onclick="showForm('forgotForm')" class="text-blue-600 hover:underline">Quên mật khẩu?</a>
-        <a href="#" onclick="showForm('registerForm')" class="text-blue-600 hover:underline">Bạn chưa có tài khoản?</a>
-      </div>
+        <div class="flex justify-between text-sm">
+          <a href="#" onclick="showForm('forgotForm')" class="text-blue-600 hover:underline">Quên mật khẩu?</a>
+          <a href="#" onclick="showForm('registerForm')" class="text-blue-600 hover:underline">Bạn chưa có tài
+            khoản?</a>
+        </div>
 
-      <button class="bg-orange-400 text-white py-2 rounded-md w-full hover:bg-orange-500">Đăng nhập</button>
+        <button class="bg-orange-400 text-white py-2 rounded-md w-full hover:bg-orange-500">Đăng nhập</button>
 
-      <div class="flex items-center my-3">
-        <hr class="flex-grow border-t border-gray-300">
-        <span class="mx-2 text-gray-500 text-sm">hoặc</span>
-        <hr class="flex-grow border-t border-gray-300">
-      </div>
+        <div class="flex items-center my-3">
+          <hr class="flex-grow border-t border-gray-300">
+          <span class="mx-2 text-gray-500 text-sm">hoặc</span>
+          <hr class="flex-grow border-t border-gray-300">
+        </div>
 
-      <div class="mt-4 w-full max-w-xs space-y-2">
-        <button
-          class="w-full bg-red-50 text-red-600 border border-red-200 rounded-md py-2 flex items-center justify-center gap-2 hover:bg-red-200">
-          <img src="https://cdn-icons-png.flaticon.com/128/281/281764.png" class="w-5 h-5" />
-          Đăng nhập bằng Google
-        </button>
+        <div class="mt-4 w-full max-w-xs space-y-2">
+          <button
+            class="w-full bg-red-50 text-red-600 border border-red-200 rounded-md py-2 flex items-center justify-center gap-2 hover:bg-red-200">
+            <img src="https://cdn-icons-png.flaticon.com/128/281/281764.png" class="w-5 h-5" />
+            Đăng nhập bằng Google
+          </button>
 
-        <button
-          class="w-full bg-blue-100 text-blue-600 border border-blue-200 rounded-md py-2 flex items-center justify-center gap-2 hover:bg-blue-200">
-          <img src="https://cdn-icons-png.flaticon.com/128/174/174848.png" class="w-5 h-5" />
-          Đăng nhập bằng Facebook
-        </button>
-      </div>
-    </form>
+          <button
+            class="w-full bg-blue-100 text-blue-600 border border-blue-200 rounded-md py-2 flex items-center justify-center gap-2 hover:bg-blue-200">
+            <img src="https://cdn-icons-png.flaticon.com/128/174/174848.png" class="w-5 h-5" />
+            Đăng nhập bằng Facebook
+          </button>
+        </div>
+      </form>
 
-    <!-- Form Đăng ký -->
-    <form id="registerForm" class="space-y-3 hidden" action="javascript:register()">
-      <div>
-        <label class="text-sm font-medium text-gray-700">Tên đăng nhập:</label>
-        <input id="usernameR" type="text" class="w-full mt-1 p-2 rounded-md border" />
-      </div>
-      <div>
-        <label class="text-sm font-medium text-gray-700">Số điện thoại:</label>
-        <input id="phoneR" type="tel" 
-        class="w-full mt-1 p-2 rounded-md border" 
-        placeholder="Nhập số điện thoại"
-        pattern="[0-9]{10,11}" 
-        title="Số điện thoại phải có 10 hoặc 11 chữ số" 
-        required />
- 
-      </div>
-      <div>
-        <label class="text-sm font-medium text-gray-700">Mật khẩu:</label>
-        <input id="passwordR" type="password" class="w-full mt-1 p-2 rounded-md border" />
-      </div>
-      <div>
-        <label class="text-sm font-medium text-gray-700">Nhập lại mật khẩu :</label>
-        <input id="confirmPasswordR" name="confirmPasswordR" type="password"
-          class="w-full mt-1 p-2 rounded-md border" />
-      </div>
+      <!-- Form Đăng ký -->
+      <form id="registerForm" class="space-y-3 hidden" action="javascript:register()">
+        <div>
+          <label class="text-sm font-medium text-gray-700">Tên đăng nhập:</label>
+          <input id="usernameR" type="text" class="w-full mt-1 p-2 rounded-md border" />
+        </div>
+        <div>
+          <label class="text-sm font-medium text-gray-700">Số điện thoại:</label>
+          <input id="phoneR" type="tel" class="w-full mt-1 p-2 rounded-md border" placeholder="Nhập số điện thoại"
+            pattern="[0-9]{10,11}" title="Số điện thoại phải có 10 hoặc 11 chữ số" required />
 
-      <div class="flex items-start text-sm mt-2">
-        <input type="checkbox" id="agree" required class="mt-1 mr-2" />
-        <label for="agree" class="text-gray-700">
-          Tôi đồng ý với 
-          <a href="terms.html" target="_blank" class="text-blue-600 hover:underline">Điều khoản dịch vụ</a> và
-          <a href="privacy.html" target="_blank" class="text-blue-600 hover:underline">Chính sách bảo mật</a>
-        </label>
-      </div>
+        </div>
+        <div>
+          <label class="text-sm font-medium text-gray-700">Mật khẩu:</label>
+          <input id="passwordR" type="password" class="w-full mt-1 p-2 rounded-md border" />
+        </div>
+        <div>
+          <label class="text-sm font-medium text-gray-700">Nhập lại mật khẩu :</label>
+          <input id="confirmPasswordR" name="confirmPasswordR" type="password"
+            class="w-full mt-1 p-2 rounded-md border" />
+        </div>
 
-      <div class="text-sm text-center">
-        <a href="#" onclick="showForm('loginForm')" class="text-blue-600 hover:underline">Đã có tài khoản? Đăng nhập</a>
-      </div>
+        <div class="flex items-start text-sm mt-2">
+          <input type="checkbox" id="agree" required class="mt-1 mr-2" />
+          <label for="agree" class="text-gray-700">
+            Tôi đồng ý với
+            <a href="terms.html" target="_blank" class="text-blue-600 hover:underline">Điều khoản dịch vụ</a> và
+            <a href="privacy.html" target="_blank" class="text-blue-600 hover:underline">Chính sách bảo mật</a>
+          </label>
+        </div>
 
-      <button class="bg-orange-400 text-white py-2 rounded-md w-full hover:bg-orange-500">Đăng ký</button>
-    </form>
+        <div class="text-sm text-center">
+          <a href="#" onclick="showForm('loginForm')" class="text-blue-600 hover:underline">Đã có tài khoản? Đăng
+            nhập</a>
+        </div>
+
+        <button class="bg-orange-400 text-white py-2 rounded-md w-full hover:bg-orange-500">Đăng ký</button>
+      </form>
 
 
-    <!-- Form Quên mật khẩu -->
-    <form id="forgotForm" class="space-y-3 hidden" action="javascript:forgotPassword()">
-      <div>
-        <label class="text-sm font-medium text-gray-700">Nhập số điện thoại để khôi phục mật khẩu:</label>
-        <input id="phoneForgot" type="tel" class="w-full mt-1 p-2 rounded-md border" placeholder="Số điện thoại của bạn" required />
-      </div>
+      <!-- Form Quên mật khẩu -->
+      <form id="forgotForm" class="space-y-3 hidden" action="javascript:forgotPassword()">
+        <div>
+          <label class="text-sm font-medium text-gray-700">Nhập số điện thoại để khôi phục mật khẩu:</label>
+          <input id="phoneForgot" type="tel" class="w-full mt-1 p-2 rounded-md border"
+            placeholder="Số điện thoại của bạn" required />
+        </div>
 
-      <div class="text-sm text-right">
-        <a href="#" onclick="showForm('loginForm')" class="text-blue-600 hover:underline">Quay lại đăng nhập</a>
-      </div>
+        <div class="text-sm text-right">
+          <a href="#" onclick="showForm('loginForm')" class="text-blue-600 hover:underline">Quay lại đăng nhập</a>
+        </div>
 
-      <button class="bg-orange-400 text-white py-2 rounded-md w-full hover:bg-orange-500">Gửi liên kết</button>
-    </form>
+        <button class="bg-orange-400 text-white py-2 rounded-md w-full hover:bg-orange-500">Gửi liên kết</button>
+      </form>
+
+    <!-- Footer -->
+    <p class="text-xs text-gray-400 text-center mt-8">version 0.1</p>
   </div>
 
-  <!-- Footer -->
-  <p class="text-xs text-gray-400 text-center mt-8">version 0.1</p>
-
-  <!-- Dashboard template -->
-  <template id="dashboard">
-    <div class="text-center">
-      <p class="text-lg">Bạn đã đăng nhập vào hệ thống.</p>
-    </div>
-  </template>
 
 </body>
+
 </html>
