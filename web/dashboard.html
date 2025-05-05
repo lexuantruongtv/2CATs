@@ -22,9 +22,9 @@
   <div id="calendarTab" class="w-full max-w-md">
     <!-- Tiêu đề tháng -->
     <div class="flex items-center justify-center mb-4">
-      <button class="text-2xl px-2">←</button>
-      <h1 class="text-2xl font-bold bg-[#FFA16C] text-white px-4 py-1 rounded">THÁNG 3</h1>
-      <button class="text-2xl px-2">→</button>
+      <button class="text-2xl px-2" onclick="changeMonth(-1)">←</button>
+      <h1 id="monthTitle" class="text-2xl font-bold bg-[#FFA16C] text-white px-4 py-1 rounded">THÁNG 3</h1>
+      <button class="text-2xl px-2" onclick="changeMonth(1)">→</button>
     </div>
 
     <!-- Bộ chọn chế độ -->
@@ -36,63 +36,16 @@
     </div>
 
     <!-- Bảng ngày -->
-    <!-- Bảng ngày đầy đủ -->
-<div class="grid grid-cols-7 gap-1 text-center text-sm">
-    <!-- Header thứ -->
-    <div class="font-bold">Thứ 2</div>
-    <div class="font-bold">Thứ 3</div>
-    <div class="font-bold">Thứ 4</div>
-    <div class="font-bold">Thứ 5</div>
-    <div class="font-bold">Thứ 6</div>
-    <div class="font-bold">Thứ 7</div>
-    <div class="font-bold">CN</div>
-  
-    <!-- Dữ liệu ô ngày: 42 ô tương ứng 6 hàng -->
-    <!-- Tuần 1 (bắt đầu từ thứ Bảy 1/3/2025) -->
-    <div></div><div></div><div></div><div></div><div></div>
-    <div class="bg-[#FFD6E7] p-2 cursor-pointer" onclick="showPopup('1/3')">1</div>
-    <div class="bg-[#FFD6E7] p-2 cursor-pointer" onclick="showPopup('2/3')">2</div>
-  
-    <!-- Tuần 2 -->
-    <div class="bg-[#FFD6E7] p-2 cursor-pointer" onclick="showPopup('3/3')">3</div>
-    <div class="bg-[#FFD6E7] p-2 cursor-pointer" onclick="showPopup('4/3')">4</div>
-    <div class="bg-[#FFD6E7] p-2 cursor-pointer" onclick="showPopup('5/3')">5</div>
-    <div class="bg-[#FFD6E7] p-2 cursor-pointer" onclick="showPopup('6/3')">6</div>
-    <div class="bg-[#FFD6E7] p-2 cursor-pointer" onclick="showPopup('7/3')">7</div>
-    <div class="bg-[#FFD6E7] p-2 cursor-pointer" onclick="showPopup('8/3')">8</div>
-    <div class="bg-[#FFD6E7] p-2 cursor-pointer" onclick="showPopup('9/3')">9</div>
-  
-    <!-- Tuần 3 -->
-    <div class="bg-[#FFD6E7] p-2 cursor-pointer" onclick="showPopup('10/3')">10</div>
-    <div class="bg-[#FFD6E7] p-2 cursor-pointer" onclick="showPopup('11/3')">11</div>
-    <div class="bg-[#FFD6E7] p-2 cursor-pointer" onclick="showPopup('12/3')">12</div>
-    <div class="bg-[#FFD6E7] p-2 cursor-pointer" onclick="showPopup('13/3')">13</div>
-    <div class="bg-[#FFD6E7] p-2 cursor-pointer" onclick="showPopup('14/3')">14</div>
-    <div class="bg-[#FFD6E7] p-2 cursor-pointer" onclick="showPopup('15/3')">15</div>
-    <div class="bg-[#FFD6E7] p-2 cursor-pointer" onclick="showPopup('16/3')">16</div>
-  
-    <!-- Tuần 4 -->
-    <div class="bg-[#FFD6E7] p-2 cursor-pointer" onclick="showPopup('17/3')">17</div>
-    <div class="bg-[#FFD6E7] p-2 cursor-pointer" onclick="showPopup('18/3')">18</div>
-    <div class="bg-[#FFD6E7] p-2 cursor-pointer" onclick="showPopup('19/3')">19</div>
-    <div class="bg-[#FFD6E7] p-2 cursor-pointer" onclick="showPopup('20/3')">20</div>
-    <div class="bg-[#FFD6E7] p-2 cursor-pointer" onclick="showPopup('21/3')">21</div>
-    <div class="bg-[#FFD6E7] p-2 cursor-pointer" onclick="showPopup('22/3')">22</div>
-    <div class="bg-[#FFD6E7] p-2 cursor-pointer" onclick="showPopup('23/3')">23</div>
-  
-    <!-- Tuần 5 -->
-    <div class="bg-[#FFD6E7] p-2 cursor-pointer" onclick="showPopup('24/3')">24</div>
-    <div class="bg-[#FFD6E7] p-2 cursor-pointer" onclick="showPopup('25/3')">25</div>
-    <div class="bg-[#FFD6E7] p-2 cursor-pointer" onclick="showPopup('26/3')">26</div>
-    <div class="bg-[#FFD6E7] p-2 cursor-pointer" onclick="showPopup('27/3')">27</div>
-    <div class="bg-[#FFD6E7] p-2 cursor-pointer" onclick="showPopup('28/3')">28</div>
-    <div class="bg-[#FFD6E7] p-2 cursor-pointer" onclick="showPopup('29/3')">29</div>
-    <div class="bg-[#FFD6E7] p-2 cursor-pointer" onclick="showPopup('30/3')">30</div>
-  
-    <!-- Tuần 6 -->
-    <div class="bg-[#FFD6E7] p-2 cursor-pointer" onclick="showPopup('31/3')">31</div>
-    <div></div><div></div><div></div><div></div><div></div><div></div>
-  </div>
+    <div id="calendarGrid" class="grid grid-cols-7 gap-1 text-center text-sm">
+      <!-- Header thứ -->
+      <div class="font-bold">Thứ 2</div>
+      <div class="font-bold">Thứ 3</div>
+      <div class="font-bold">Thứ 4</div>
+      <div class="font-bold">Thứ 5</div>
+      <div class="font-bold">Thứ 6</div>
+      <div class="font-bold">Thứ 7</div>
+      <div class="font-bold">CN</div>
+    </div>
   </div>
 
   <!-- Tab: Tạo sự kiện -->
@@ -106,7 +59,7 @@
     <input type="datetime-local" class="w-full border rounded p-2 mb-4" />
 
     <label class="block mb-2">Mô tả:</label>
-    <textarea class="w-full border rounded p-2 mb-4" rows="3" placeholder="Chi tiết sự kiện..."></textarea>
+    <textarea class="w-full border rounded p-2 mb-4" rows="3" placeholder="Chi tiết sự kiện"></textarea>
 
     <button class="bg-pink-400 text-white px-4 py-2 rounded w-full">Lưu</button>
   </div>
@@ -121,15 +74,66 @@
   </div>
 
   <script>
+    let currentMonth = 2;  // Bắt đầu từ tháng 3 (tháng 2 trong lập trình vì tháng bắt đầu từ 0)
+    const monthNames = ["Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"];
+
     function showTab(tab) {
       document.getElementById('calendarTab').classList.add('hidden');
       document.getElementById('eventFormTab').classList.add('hidden');
 
       if (tab === 'calendar') {
         document.getElementById('calendarTab').classList.remove('hidden');
+        renderCalendar();
       } else if (tab === 'eventForm') {
         document.getElementById('eventFormTab').classList.remove('hidden');
       }
+    }
+
+    function renderCalendar() {
+      const monthTitle = document.getElementById("monthTitle");
+      const calendarGrid = document.getElementById("calendarGrid");
+
+      // Cập nhật tiêu đề tháng
+      monthTitle.innerText = monthNames[currentMonth];
+
+      // Lấy số ngày trong tháng
+      const daysInMonth = new Date(2025, currentMonth + 1, 0).getDate();
+      const firstDay = new Date(2025, currentMonth, 1).getDay(); // Ngày đầu tháng
+
+      // Làm mới bảng ngày
+      calendarGrid.innerHTML = `
+        <div class="font-bold">Thứ 2</div>
+        <div class="font-bold">Thứ 3</div>
+        <div class="font-bold">Thứ 4</div>
+        <div class="font-bold">Thứ 5</div>
+        <div class="font-bold">Thứ 6</div>
+        <div class="font-bold">Thứ 7</div>
+        <div class="font-bold">CN</div>
+      `;
+
+      // Thêm ô ngày vào bảng
+      let day = 1;
+      for (let i = 0; i < 6; i++) {
+        const row = document.createElement('div');
+        for (let j = 0; j < 7; j++) {
+          if (i === 0 && j < firstDay) {
+            row.innerHTML += `<div></div>`;
+          } else if (day <= daysInMonth) {
+            row.innerHTML += `<div class="bg-[#FFD6E7] p-2 cursor-pointer" onclick="showPopup('${day}/${currentMonth + 1}')">${day}</div>`;
+            day++;
+          } else {
+            row.innerHTML += `<div></div>`;
+          }
+        }
+        calendarGrid.appendChild(row);
+      }
+    }
+
+    function changeMonth(direction) {
+      currentMonth += direction;
+      if (currentMonth < 0) currentMonth = 11;
+      if (currentMonth > 11) currentMonth = 0;
+      renderCalendar();
     }
 
     function showPopup(date) {
@@ -140,6 +144,9 @@
     function closePopup() {
       document.getElementById('popup').classList.add('hidden');
     }
+
+    // Khi tải trang, hiển thị lịch tháng 3
+    renderCalendar();
   </script>
 </body>
 
