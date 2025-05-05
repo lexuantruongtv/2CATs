@@ -33,7 +33,7 @@ function register() {
 
   const data = { username, phone, password };
 
-  fetch('http://localhost:5000/api/users/register', {
+  fetch('http://localhost:5000/api/userRoutes/register', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -60,7 +60,7 @@ function login() {
 
   const data = { username, password };
 
-  fetch('http://localhost:5000/api/users/login', {
+  fetch('http://localhost:5000/api/userRoutes/login', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
