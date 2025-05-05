@@ -1,6 +1,4 @@
 import User from '../models/User.js';
-import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
 
 const register = async (req, res) => {
   const { username, phone, password } = req.body;
@@ -12,10 +10,7 @@ const register = async (req, res) => {
       return res.status(400).json({ message: 'Tên đăng nhập đã tồn tại' });
     }
 
-    // Mã hóa mật khẩu
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    const newUser = new User({ username, phone, password: hashedPassword });
+    const newUser = new User({ username, phone, password });
 
     // Lưu người dùng vào database
     await newUser.save();
@@ -37,15 +32,11 @@ const login = async (req, res) => {
     }
 
     // Kiểm tra mật khẩu
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) {
+    if (password !== user.password) {
       return res.status(400).json({ message: 'Sai tên đăng nhập hoặc mật khẩu' });
     }
 
-    // Tạo JWT token
-    const token = jwt.sign({ id: user._id }, 'your_jwt_secret', { expiresIn: '1h' });
-
-    res.json({ message: 'Đăng nhập thành công!', token });
+    res.json({ message: 'Đăng nhập thành công!' });
   } catch (err) {
     res.status(500).json({ message: 'Lỗi server, vui lòng thử lại' });
   }
