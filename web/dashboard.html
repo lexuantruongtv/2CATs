@@ -68,11 +68,7 @@
       <button onclick="closePopup()" class="absolute top-2 right-2 text-gray-500 hover:text-red-500 text-lg">&times;</button>
       <h3 class="text-xl font-bold mb-3">Chi tiết ngày <span id="popupDate"></span></h3>
       <div id="eventList" class="text-sm text-left text-gray-700 mb-3"></div>
-      <div id="popupActions" class="flex justify-center gap-4 hidden">
-        <button onclick="editEvent()" class="bg-yellow-400 text-white px-3 py-1 rounded shadow">Sửa</button>
-        <button onclick="deleteEvent()" class="bg-red-500 text-white px-3 py-1 rounded shadow">Xoá</button>
-      </div>
-      <button onclick="addEventToDay()" class="bg-blue-500 text-white px-4 py-2 rounded w-full mt-4">➕ Thêm sự kiện</button>
+      <button onclick="goToEventForm()" class="bg-blue-500 text-white px-4 py-2 rounded shadow w-full">Thêm sự kiện</button>
     </div>
   </div>
 
@@ -103,7 +99,7 @@
       const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
       const firstDay = (new Date(currentYear, currentMonth, 1).getDay() + 6) % 7;
 
-      calendarGrid.innerHTML = `
+      calendarGrid.innerHTML = ` 
         <div class="font-bold">Thứ 2</div>
         <div class="font-bold">Thứ 3</div>
         <div class="font-bold">Thứ 4</div>
@@ -122,8 +118,7 @@
           cell.innerHTML = `<div class="bg-[#FFD6E7] p-1 cursor-pointer rounded h-full" onclick="showPopup(${day})">
                               <div class="font-semibold">${day}</div>
                               ${event ? `<div class="text-xs text-pink-800 truncate">${JSON.parse(event).title}</div>` : ""}
-                              <button class="text-blue-500 text-xs mt-2" onclick="addEventToDay(event, ${day}); event.stopPropagation();">➕ Thêm sự kiện</button>
-                            </div>`; 
+                            </div>`;
           day++;
         } else {
           cell.innerHTML = "";
@@ -158,16 +153,12 @@
 
       const event = localStorage.getItem(key);
       const list = document.getElementById("eventList");
-      const actions = document.getElementById("popupActions");
       list.innerHTML = "";
-      actions.classList.add("hidden");
-
       if (event) {
         const e = JSON.parse(event);
         list.innerHTML = `<p><strong>📝 Tiêu đề:</strong> ${e.title}</p>
                           <p><strong>🕒 Thời gian:</strong> ${e.time}</p>
                           <p><strong>📄 Mô tả:</strong> ${e.description}</p>`;
-        actions.classList.remove("hidden");
       } else {
         list.innerHTML = `<p class="italic text-gray-500">Chưa có sự kiện nào.</p>`;
       }
@@ -179,31 +170,10 @@
       document.getElementById("popup").classList.add("hidden");
     }
 
-    function addEventToDay() {
-      showTab('eventForm');
-      document.getElementById("titleInput").value = "";
-      document.getElementById("timeInput").value = "";
-      document.getElementById("descInput").value = "";
-      editingKey = selectedDateKey;
-      closePopup();
-    }
-
-    function deleteEvent() {
-      if (confirm("Bạn có chắc muốn xoá sự kiện này không?")) {
-        localStorage.removeItem(selectedDateKey);
-        closePopup();
-        renderCalendar();
-      }
-    }
-
-    function editEvent() {
-      const event = JSON.parse(localStorage.getItem(selectedDateKey));
-      if (!event) return;
+    function goToEventForm() {
       showTab("eventForm");
-      document.getElementById("titleInput").value = event.title;
-      document.getElementById("timeInput").value = event.time;
-      document.getElementById("descInput").value = event.description;
-      editingKey = selectedDateKey;
+      document.getElementById("timeInput").value = `${currentYear}-${currentMonth + 1}-${selectedDateKey.split("-")[2]}T00:00`;
+      document.getElementById("titleInput").focus();
       closePopup();
     }
 
@@ -218,12 +188,12 @@
       }
 
       const date = new Date(time);
-      const key = editingKey || `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+      const key = selectedDateKey || `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
       const event = { title, time, description };
       localStorage.setItem(key, JSON.stringify(event));
 
       // Reset
-      editingKey = null;
+      selectedDateKey = null;
       document.getElementById("titleInput").value = "";
       document.getElementById("timeInput").value = "";
       document.getElementById("descInput").value = "";
