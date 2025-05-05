@@ -60,12 +60,12 @@ async function register() {
   const agree = document.getElementById('agree').checked;
 
   if (password !== confirmPassword) {
-    alert('Mật khẩu nhập lại không khớp!');
+    alert('👉 Mật khẩu nhập lại không khớp!');
     return;
   }
 
   if (!agree) {
-    alert('Bạn phải đồng ý với điều khoản!');
+    alert('👉 Bạn phải đồng ý với điều khoản!');
     return;
   }
 
@@ -85,7 +85,7 @@ async function register() {
     }
   } catch (err) {
     console.error(err);
-    alert('Đã có lỗi xảy ra!');
+    alert('❌ Đã có lỗi xảy ra!');
   }
 }
 
@@ -130,7 +130,7 @@ async function login() {
     }
   } catch (err) {
     console.error(err);
-    alert('Đã có lỗi xảy ra!');
+    alert('❌ Đã có lỗi xảy ra!');
   }
 }
 
@@ -143,8 +143,8 @@ function logout() {
 function forgotPassword() {
   const phone = document.getElementById('phoneForgot').value.trim();
   if (!phone) {
-    alert('Vui lòng nhập số điện thoại!');
+    alert('👉 Vui lòng nhập số điện thoại!');
     return;
   }
-  alert('Liên kết khôi phục đã được gửi tới số điện thoại của bé (giả lập thôi nhé hehe 🐾)');
+  alert('Liên kết khôi phục đã được gửi tới số điện thoại của bé (demo thôi nhé hehe 🐾)');
 }

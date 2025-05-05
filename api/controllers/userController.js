@@ -17,7 +17,7 @@ export const registerUser = async (req, res) => {
 
     res.status(201).json({ message: 'Đăng ký thành công! 🐱🎉' });
   } catch (err) {
-    res.status(500).json({ message: 'Lỗi server, vui lòng thử lại' });
+    res.status(500).json({ message: '❌ Lỗi server, vui lòng thử lại' });
   }
 };
 
@@ -28,12 +28,12 @@ export const loginUser = async (req, res) => {
     // Kiểm tra người dùng có tồn tại không
     const user = await User.findOne({ username });
     if (!user) {
-      return res.status(400).json({ message: 'Sai tên đăng nhập hoặc mật khẩu' });
+      return res.status(400).json({ message: '❌ Sai tên đăng nhập hoặc mật khẩu' });
     }
 
     // Kiểm tra mật khẩu
     if (password !== user.password) {
-      return res.status(400).json({ message: 'Sai tên đăng nhập hoặc mật khẩu' });
+      return res.status(400).json({ message: '❌ Sai tên đăng nhập hoặc mật khẩu' });
     }
 
     res.json({ message: 'Đăng nhập thành công! 🐱🎉' });
