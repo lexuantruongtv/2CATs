@@ -9,6 +9,7 @@
 </head>
 
 <body class="bg-[#9BE4FF] min-h-screen flex flex-col items-center p-4 font-sans">
+
   <!-- Thanh điều hướng -->
   <div class="w-full max-w-md bg-[#FFACC9] flex justify-around py-3 mb-4 rounded shadow">
     <button onclick="showTab('calendar')" class="text-white font-semibold">📅 LỊCH TRÌNH</button>
@@ -18,13 +19,13 @@
 
   <!-- Tab: Lịch trình -->
   <div id="calendarTab" class="w-full max-w-md">
-    <!-- Tiêu đề tháng và chọn năm -->
-    <div class="flex items-center justify-center gap-2 mb-4">
+    <!-- Tiêu đề tháng -->
+    <div class="flex items-center justify-center mb-4 gap-2">
       <button class="text-2xl px-2" onclick="changeMonth(-1)">←</button>
       <h1 id="monthTitle" class="text-2xl font-bold bg-[#FFA16C] text-white px-4 py-1 rounded">THÁNG 3</h1>
       <button class="text-2xl px-2" onclick="changeMonth(1)">→</button>
-      <select id="yearSelect" onchange="changeYear()" class="ml-2 px-2 py-1 rounded">
-        <!-- Năm được tạo bằng JS -->
+      <select id="yearSelect" onchange="changeYear(this.value)" class="ml-2 rounded px-2 py-1 bg-white shadow text-sm">
+        <!-- Năm sẽ được thêm bằng JS -->
       </select>
     </div>
 
@@ -38,38 +39,47 @@
 
     <!-- Bảng ngày -->
     <div id="calendarGrid" class="grid grid-cols-7 gap-1 text-center text-sm">
-      <!-- Header thứ sẽ được thêm bằng JS -->
+      <!-- Header thứ -->
+      <div class="font-bold">Thứ 2</div>
+      <div class="font-bold">Thứ 3</div>
+      <div class="font-bold">Thứ 4</div>
+      <div class="font-bold">Thứ 5</div>
+      <div class="font-bold">Thứ 6</div>
+      <div class="font-bold">Thứ 7</div>
+      <div class="font-bold">CN</div>
     </div>
   </div>
 
   <!-- Tab: Tạo sự kiện -->
   <div id="eventFormTab" class="w-full max-w-md hidden bg-white rounded p-4 shadow">
     <h2 class="text-xl font-bold mb-4 text-center">Tạo sự kiện</h2>
-
     <label class="block mb-2">Tiêu đề:</label>
-    <input id="eventTitle" type="text" class="w-full border rounded p-2 mb-4" placeholder="Nhập tiêu đề..." />
-
+    <input id="titleInput" type="text" class="w-full border rounded p-2 mb-4" placeholder="Nhập tiêu đề..." />
     <label class="block mb-2">Ngày & Giờ:</label>
-    <input id="eventDateTime" type="datetime-local" class="w-full border rounded p-2 mb-4" />
-
+    <input id="timeInput" type="datetime-local" class="w-full border rounded p-2 mb-4" />
     <label class="block mb-2">Mô tả:</label>
-    <textarea id="eventDescription" class="w-full border rounded p-2 mb-4" rows="3" placeholder="Chi tiết sự kiện"></textarea>
-
-    <button onclick="saveEvent()" class="bg-pink-400 text-white px-4 py-2 rounded w-full">Lưu</button>
+    <textarea id="descInput" class="w-full border rounded p-2 mb-4" rows="3" placeholder="Chi tiết sự kiện"></textarea>
+    <button id="saveEventBtn" class="bg-pink-400 text-white px-4 py-2 rounded w-full">Lưu</button>
   </div>
 
   <!-- Popup chi tiết ngày -->
   <div id="popup" class="hidden fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
-    <div class="bg-white p-4 rounded shadow w-72 text-center">
-      <h3 class="text-lg font-bold mb-2">Chi tiết ngày <span id="popupDate"></span></h3>
-      <div id="eventList" class="text-sm text-gray-700 mb-4"></div>
-      <button onclick="closePopup()" class="bg-pink-400 text-white px-4 py-1 rounded">Đóng</button>
+    <div class="bg-white p-4 rounded shadow w-80 text-center relative">
+      <button onclick="closePopup()" class="absolute top-2 right-2 text-gray-500 hover:text-red-500 text-lg">&times;</button>
+      <h3 class="text-xl font-bold mb-3">Chi tiết ngày <span id="popupDate"></span></h3>
+      <div id="eventList" class="text-sm text-left text-gray-700 mb-3"></div>
+      <div id="popupActions" class="flex justify-center gap-4 hidden">
+        <button onclick="editEvent()" class="bg-yellow-400 text-white px-3 py-1 rounded shadow">Sửa</button>
+        <button onclick="deleteEvent()" class="bg-red-500 text-white px-3 py-1 rounded shadow">Xoá</button>
+      </div>
     </div>
   </div>
 
   <script>
     let currentMonth = 2;
     let currentYear = 2025;
+    let selectedDateKey = "";
+    let editingKey = null;
     const monthNames = ["Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"];
 
     function showTab(tab) {
@@ -78,20 +88,21 @@
       if (tab === 'calendar') {
         document.getElementById('calendarTab').classList.remove('hidden');
         renderCalendar();
-      } else {
+      } else if (tab === 'eventForm') {
         document.getElementById('eventFormTab').classList.remove('hidden');
       }
     }
 
     function renderCalendar() {
-      const title = document.getElementById("monthTitle");
-      const grid = document.getElementById("calendarGrid");
-      title.innerText = `${monthNames[currentMonth]}`;
+      const monthTitle = document.getElementById("monthTitle");
+      const calendarGrid = document.getElementById("calendarGrid");
+
+      monthTitle.innerText = monthNames[currentMonth];
 
       const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
       const firstDay = (new Date(currentYear, currentMonth, 1).getDay() + 6) % 7;
 
-      grid.innerHTML = `
+      calendarGrid.innerHTML = `
         <div class="font-bold">Thứ 2</div>
         <div class="font-bold">Thứ 3</div>
         <div class="font-bold">Thứ 4</div>
@@ -102,33 +113,29 @@
       `;
 
       let day = 1;
-      for (let i = 0; i < 42; i++) {
-        const cell = document.createElement('div');
+      for (let i = 0; i < 6 * 7; i++) {
+        const cell = document.createElement("div");
         if (i >= firstDay && day <= daysInMonth) {
           const key = `${currentYear}-${currentMonth + 1}-${day}`;
           const event = localStorage.getItem(key);
-          cell.className = "bg-[#FFD6E7] p-2 cursor-pointer rounded text-sm";
-          cell.onclick = () => showPopup(day);
-          cell.innerHTML = `<div class="font-semibold">${day}</div>`;
-          if (event) {
-            const eventObj = JSON.parse(event);
-            cell.innerHTML += `<div class="text-xs text-pink-600">${eventObj.title}</div>`;
-          }
+          cell.innerHTML = `<div class="bg-[#FFD6E7] p-1 cursor-pointer rounded h-full" onclick="showPopup(${day})">
+                              <div class="font-semibold">${day}</div>
+                              ${event ? `<div class="text-xs text-pink-800 truncate">${JSON.parse(event).title}</div>` : ""}
+                            </div>`;
           day++;
         } else {
           cell.innerHTML = "";
         }
-        grid.appendChild(cell);
+        calendarGrid.appendChild(cell);
       }
     }
 
-    function changeMonth(offset) {
-      currentMonth += offset;
+    function changeMonth(delta) {
+      currentMonth += delta;
       if (currentMonth < 0) {
         currentMonth = 11;
         currentYear--;
-      }
-      if (currentMonth > 11) {
+      } else if (currentMonth > 11) {
         currentMonth = 0;
         currentYear++;
       }
@@ -136,52 +143,94 @@
       renderCalendar();
     }
 
-    function changeYear() {
-      currentYear = parseInt(document.getElementById("yearSelect").value);
+    function changeYear(year) {
+      currentYear = parseInt(year);
       renderCalendar();
-    }
-
-    function saveEvent() {
-      const title = document.getElementById("eventTitle").value;
-      const dateTime = document.getElementById("eventDateTime").value;
-      const description = document.getElementById("eventDescription").value;
-      const date = new Date(dateTime);
-      const key = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
-      const event = { title, description, time: date.toLocaleTimeString() };
-      localStorage.setItem(key, JSON.stringify(event));
-      alert("Đã lưu sự kiện!");
-      showTab('calendar');
     }
 
     function showPopup(day) {
       const key = `${currentYear}-${currentMonth + 1}-${day}`;
+      selectedDateKey = key;
+      const dateDisplay = `${day}/${currentMonth + 1}/${currentYear}`;
+      document.getElementById("popupDate").innerText = dateDisplay;
+
       const event = localStorage.getItem(key);
-      document.getElementById('popupDate').innerText = `${day}/${currentMonth + 1}/${currentYear}`;
+      const list = document.getElementById("eventList");
+      const actions = document.getElementById("popupActions");
+      list.innerHTML = "";
+      actions.classList.add("hidden");
+
       if (event) {
         const e = JSON.parse(event);
-        document.getElementById("eventList").innerHTML = `<strong>${e.title}</strong><br>${e.description}<br>${e.time}`;
+        list.innerHTML = `<p><strong>📝 Tiêu đề:</strong> ${e.title}</p>
+                          <p><strong>🕒 Thời gian:</strong> ${e.time}</p>
+                          <p><strong>📄 Mô tả:</strong> ${e.description}</p>`;
+        actions.classList.remove("hidden");
       } else {
-        document.getElementById("eventList").innerText = "Chưa có sự kiện nào";
+        list.innerHTML = `<p class="italic text-gray-500">Chưa có sự kiện nào.</p>`;
       }
-      document.getElementById('popup').classList.remove('hidden');
+
+      document.getElementById("popup").classList.remove("hidden");
     }
 
     function closePopup() {
-      document.getElementById('popup').classList.add('hidden');
+      document.getElementById("popup").classList.add("hidden");
     }
 
-    function setupYearDropdown() {
-      const select = document.getElementById("yearSelect");
-      for (let y = 2020; y <= 2030; y++) {
-        const opt = document.createElement("option");
-        opt.value = y;
-        opt.text = y;
-        if (y === currentYear) opt.selected = true;
-        select.appendChild(opt);
+    function deleteEvent() {
+      if (confirm("Bạn có chắc muốn xoá sự kiện này không?")) {
+        localStorage.removeItem(selectedDateKey);
+        closePopup();
+        renderCalendar();
       }
     }
 
-    setupYearDropdown();
+    function editEvent() {
+      const event = JSON.parse(localStorage.getItem(selectedDateKey));
+      if (!event) return;
+      showTab("eventForm");
+      document.getElementById("titleInput").value = event.title;
+      document.getElementById("timeInput").value = event.time;
+      document.getElementById("descInput").value = event.description;
+      editingKey = selectedDateKey;
+      closePopup();
+    }
+
+    document.getElementById("saveEventBtn").onclick = function () {
+      const title = document.getElementById("titleInput").value;
+      const time = document.getElementById("timeInput").value;
+      const description = document.getElementById("descInput").value;
+
+      if (!title || !time) {
+        alert("Vui lòng nhập đầy đủ tiêu đề và thời gian.");
+        return;
+      }
+
+      const date = new Date(time);
+      const key = editingKey || `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+      const event = { title, time, description };
+      localStorage.setItem(key, JSON.stringify(event));
+
+      // Reset
+      editingKey = null;
+      document.getElementById("titleInput").value = "";
+      document.getElementById("timeInput").value = "";
+      document.getElementById("descInput").value = "";
+
+      showTab("calendar");
+      renderCalendar();
+    };
+
+    // Khởi tạo dropdown năm
+    const yearSelect = document.getElementById("yearSelect");
+    for (let y = 2020; y <= 2030; y++) {
+      const option = document.createElement("option");
+      option.value = y;
+      option.textContent = y;
+      if (y === currentYear) option.selected = true;
+      yearSelect.appendChild(option);
+    }
+
     renderCalendar();
   </script>
 </body>
