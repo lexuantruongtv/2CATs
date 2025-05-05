@@ -6,7 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Trang chủ - Lịch tháng</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="app.js" defer></script>
 </head>
 
 <body class="bg-[#9BE4FF] min-h-screen flex flex-col items-center p-4 font-sans">
@@ -20,11 +19,12 @@
 
   <!-- Tab: Lịch trình -->
   <div id="calendarTab" class="w-full max-w-md">
-    <!-- Tiêu đề tháng -->
-    <div class="flex items-center justify-center mb-4">
+    <!-- Tiêu đề tháng + năm -->
+    <div class="flex items-center justify-center mb-4 space-x-2">
       <button class="text-2xl px-2" onclick="changeMonth(-1)">←</button>
       <h1 id="monthTitle" class="text-2xl font-bold bg-[#FFA16C] text-white px-4 py-1 rounded">THÁNG 3</h1>
       <button class="text-2xl px-2" onclick="changeMonth(1)">→</button>
+      <span id="yearDisplay" class="text-xl font-semibold text-gray-800 ml-2">2025</span>
     </div>
 
     <!-- Bộ chọn chế độ -->
@@ -73,9 +73,12 @@
     </div>
   </div>
 
+  <!-- Script -->
   <script>
-    let currentMonth = 2;  // Bắt đầu từ tháng 3 (tháng 2 trong lập trình vì tháng bắt đầu từ 0)
-    const monthNames = ["Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"];
+    let currentMonth = 2; // Tháng 3 (bắt đầu từ 0)
+    let currentYear = 2025;
+    const monthNames = ["Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6",
+      "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"];
 
     function showTab(tab) {
       document.getElementById('calendarTab').classList.add('hidden');
@@ -91,16 +94,16 @@
 
     function renderCalendar() {
       const monthTitle = document.getElementById("monthTitle");
+      const yearDisplay = document.getElementById("yearDisplay");
       const calendarGrid = document.getElementById("calendarGrid");
 
-      // Cập nhật tiêu đề tháng
       monthTitle.innerText = monthNames[currentMonth];
+      yearDisplay.innerText = currentYear;
 
-      // Lấy số ngày trong tháng
-      const daysInMonth = new Date(2025, currentMonth + 1, 0).getDate();
-      const firstDay = new Date(2025, currentMonth, 1).getDay(); // Ngày đầu tháng
+      const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+      let firstDay = new Date(currentYear, currentMonth, 1).getDay();
+      firstDay = (firstDay + 6) % 7; // chuyển Chủ Nhật từ 0 → 6
 
-      // Làm mới bảng ngày
       calendarGrid.innerHTML = `
         <div class="font-bold">Thứ 2</div>
         <div class="font-bold">Thứ 3</div>
@@ -111,28 +114,33 @@
         <div class="font-bold">CN</div>
       `;
 
-      // Thêm ô ngày vào bảng
       let day = 1;
       for (let i = 0; i < 6; i++) {
-        const row = document.createElement('div');
         for (let j = 0; j < 7; j++) {
+          const cell = document.createElement('div');
           if (i === 0 && j < firstDay) {
-            row.innerHTML += `<div></div>`;
+            cell.innerHTML = "";
           } else if (day <= daysInMonth) {
-            row.innerHTML += `<div class="bg-[#FFD6E7] p-2 cursor-pointer" onclick="showPopup('${day}/${currentMonth + 1}')">${day}</div>`;
+            cell.className = "bg-[#FFD6E7] p-2 cursor-pointer";
+            cell.innerText = day;
+            cell.onclick = () => showPopup(`${day}/${currentMonth + 1}/${currentYear}`);
             day++;
-          } else {
-            row.innerHTML += `<div></div>`;
           }
+          calendarGrid.appendChild(cell);
         }
-        calendarGrid.appendChild(row);
       }
     }
 
     function changeMonth(direction) {
       currentMonth += direction;
-      if (currentMonth < 0) currentMonth = 11;
-      if (currentMonth > 11) currentMonth = 0;
+      if (currentMonth < 0) {
+        currentMonth = 11;
+        currentYear--;
+      }
+      if (currentMonth > 11) {
+        currentMonth = 0;
+        currentYear++;
+      }
       renderCalendar();
     }
 
@@ -145,8 +153,7 @@
       document.getElementById('popup').classList.add('hidden');
     }
 
-    // Khi tải trang, hiển thị lịch tháng 3
-    renderCalendar();
+    renderCalendar(); // Load mặc định
   </script>
 </body>
 
