@@ -38,10 +38,15 @@ export const loginUser = async (req, res) => {
 
     res.json({ message: 'Đăng nhập thành công! 🐱🎉' });
   } catch (err) {
-    res.status(500).json({ message: 'Lỗi server, vui lòng thử lại' });
+    res.status(500).json({ message: '❌ Lỗi server, vui lòng thử lại' });
   }
 };
 
-export const getAllUsers = (req, res) => {
-  res.json(User);
+export const getAllUsers = async (req, res) => {
+  try {
+    const users = await User.find();  // lấy toàn bộ user trong MongoDB
+    res.json(users);
+  } catch (error) {
+    res.status(500).json({ error: '❌ Có ai trong đây đâu, đăng ký đi' });
+  }
 };
