@@ -25,32 +25,29 @@ function register() {
   const phone = document.getElementById('phoneR').value.trim();
   const password = document.getElementById('passwordR').value;
   const confirmPassword = document.getElementById('confirmPasswordR').value;
+  const agree = document.getElementById('agree').checked;
+
+  if (!username || !phone || !password || !confirmPassword) {
+    alert('Vui lòng điền đầy đủ thông tin!');
+    return;
+  }
 
   if (password !== confirmPassword) {
     alert('Mật khẩu và Nhập lại mật khẩu không khớp!');
     return;
   }
 
-  const data = { username, phone, password };
+  if (!agree) {
+    alert('Bé phải đồng ý với Điều khoản và Chính sách nha!');
+    return;
+  }
 
-  fetch('http://localhost:5000/api/userRoutes/register', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(data),
-  })
-  .then(response => response.json())
-  .then(data => {
-    if (data.message) {
-      alert(data.message);
-      showForm('loginForm'); // Chuyển sang form đăng nhập
-    }
-  })
-  .catch(error => {
-    alert('Lỗi khi đăng ký');
-    console.error(error);
-  });
+  const users = JSON.parse(localStorage.getItem('users')) || [];
+  users.push({ username, phone, password });
+  localStorage.setItem('users', JSON.stringify(users));
+
+  alert('Đăng ký thành công! 🐱🎉');
+  showForm('loginForm');
 }
 
 // Đăng nhập
@@ -58,28 +55,28 @@ function login() {
   const username = document.getElementById('usernameL').value.trim();
   const password = document.getElementById('passwordL').value;
 
-  const data = { username, password };
+  if (!username || !password) {
+    alert('Vui lòng nhập đầy đủ thông tin!');
+    return;
+  }
 
-  fetch('http://localhost:5000/api/userRoutes/login', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(data),
-  })
-  .then(response => response.json())
-  .then(data => {
-    if (data.token) {
-      localStorage.setItem('token', data.token); // Lưu JWT vào localStorage
-      window.location.href = 'dashboard.html';  // Chuyển đến trang dashboard
-    } else {
-      alert(data.message);
-    }
-  })
-  .catch(error => {
-    alert('Lỗi khi đăng nhập');
-    console.error(error);
-  });
+  const users = JSON.parse(localStorage.getItem('users')) || [];
+  const user = users.find(u => u.username === username);
+
+  if (!user || user.password !== password) {
+    alert('Sai tên đăng nhập hoặc mật khẩu!');
+    return;
+  }
+
+  localStorage.setItem('name', user.name);
+
+  // Chuyển đến trang dashboard
+  window.location.href = 'dashboard.html';
+}
+
+// Đăng xuất
+function logout() {
+  window.location.href = 'index.html';
 }
 
 // Quên mật khẩu (gửi liên kết)
