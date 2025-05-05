@@ -14,9 +14,9 @@ export const registerUser = async (req, res) => {
     // Lưu người dùng vào database
     await newUser.save();
 
-    res.status(201).json({ message: 'Đăng ký thành công! 🐱🎉' });
+    res.status(201).json({ message: 'Đăng ký thành công! 🐱🎉', user: { username, phone } });
   } catch (err) {
-    res.status(500).json({ message: '❌ Lỗi server, vui lòng thử lại' });
+    res.status(500).json({ message: `❌ Lỗi server: ${err.message}` });
   }
 };
 
@@ -36,7 +36,7 @@ export const loginUser = async (req, res) => {
 
     res.json({ message: 'Đăng nhập thành công! 🐱🎉' });
   } catch (err) {
-    res.status(500).json({ message: '❌ Lỗi server, vui lòng thử lại' });
+    res.status(500).json({ message: `❌ Lỗi server: ${err.message}` });
   }
 };
 
