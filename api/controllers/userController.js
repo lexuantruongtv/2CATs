@@ -1,9 +1,8 @@
 import User from '../models/User.js';
 
 export const registerUser = async (req, res) => {
-  const { username, phone, password } = req.body;
-
-  try {
+    try {
+    const { username, phone, password } = req.body;
     // Kiểm tra xem người dùng đã tồn tại
     const existingUser = await User.findOne({ username });
     if (existingUser) {
@@ -22,9 +21,8 @@ export const registerUser = async (req, res) => {
 };
 
 export const loginUser = async (req, res) => {
-  const { username, password } = req.body;
-
   try {
+    const { username, password } = req.body;
     // Kiểm tra người dùng có tồn tại không
     const user = await User.findOne({ username });
     if (!user) {

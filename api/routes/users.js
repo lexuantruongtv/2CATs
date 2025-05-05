@@ -4,10 +4,10 @@ import { registerUser, loginUser, getAllUsers } from '../controllers/userControl
 const router = express.Router();
 
 // Route POST cho đăng ký
-router.post('/register', registerUser);
+router.post('/', registerUser);
 
 // Route POST cho đăng nhập
-router.post('/login', loginUser);
+router.post('/', loginUser);
 
 // Route GET để trả về danh sách tất cả người dùng
 router.get('/', getAllUsers);
