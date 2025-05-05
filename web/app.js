@@ -127,10 +127,6 @@ async function login() {
     const data = await res.json();
     if (res.ok) {
       alert(data.message);
-      // Lưu token nếu cần
-      localStorage.setItem('token', data.token);
-    } else {
-      alert(data.message);
     }
   } catch (err) {
     console.error(err);

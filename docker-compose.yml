@@ -8,6 +8,8 @@ services:
       - '27017:27017'
     volumes:
       - mongo-data:/data/db
+    networks:
+      - app-network
 
   api:
     build: ./api
@@ -21,12 +23,20 @@ services:
       - MONGO_URI=mongodb://mongo:27017/schedule-db
     depends_on:
       - mongo
+    networks:
+      - app-network
 
   web:
     build: ./web
     container_name: web
     ports:
       - '8080:80'
+    networks:
+      - app-network
 
 volumes:
   mongo-data:
+
+networks:
+  app-network:
+    driver: bridge

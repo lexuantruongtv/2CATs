@@ -1,6 +1,6 @@
 import User from '../models/User.js';
 
-const register = async (req, res) => {
+export const registerUser = async (req, res) => {
   const { username, phone, password } = req.body;
 
   try {
@@ -15,13 +15,13 @@ const register = async (req, res) => {
     // Lưu người dùng vào database
     await newUser.save();
 
-    res.status(201).json({ message: 'Đăng ký thành công!' });
+    res.status(201).json({ message: 'Đăng ký thành công! 🐱🎉' });
   } catch (err) {
     res.status(500).json({ message: 'Lỗi server, vui lòng thử lại' });
   }
 };
 
-const login = async (req, res) => {
+export const loginUser = async (req, res) => {
   const { username, password } = req.body;
 
   try {
@@ -36,10 +36,12 @@ const login = async (req, res) => {
       return res.status(400).json({ message: 'Sai tên đăng nhập hoặc mật khẩu' });
     }
 
-    res.json({ message: 'Đăng nhập thành công!' });
+    res.json({ message: 'Đăng nhập thành công! 🐱🎉' });
   } catch (err) {
     res.status(500).json({ message: 'Lỗi server, vui lòng thử lại' });
   }
 };
 
-export { register, login };
+export const getAllUsers = (req, res) => {
+  res.json(User);
+};
