@@ -21,11 +21,11 @@
       <form id="loginForm" class="space-y-3" action="javascript:login()">
         <div>
           <label class="text-sm font-medium text-gray-700">Tên đăng nhập:</label>
-          <input id="usernameL" type="text" class="w-full mt-1 p-2 rounded-md border" />
+          <input id="usernameL" type="text" class="w-full mt-1 p-2 rounded-md border" required/>
         </div>
         <div>
           <label class="text-sm font-medium text-gray-700">Mật khẩu:</label>
-          <input id="passwordL" type="password" class="w-full mt-1 p-2 rounded-md border" />
+          <input id="passwordL" type="password" class="w-full mt-1 p-2 rounded-md border" required/>
         </div>
 
         <div class="flex justify-between text-sm">
@@ -61,7 +61,7 @@
       <form id="registerForm" class="space-y-3 hidden" action="javascript:register()">
         <div>
           <label class="text-sm font-medium text-gray-700">Tên đăng nhập:</label>
-          <input id="usernameR" type="text" class="w-full mt-1 p-2 rounded-md border" />
+          <input id="usernameR" type="text" class="w-full mt-1 p-2 rounded-md border" required />
         </div>
         <div>
           <label class="text-sm font-medium text-gray-700">Số điện thoại:</label>
@@ -71,12 +71,12 @@
         </div>
         <div>
           <label class="text-sm font-medium text-gray-700">Mật khẩu:</label>
-          <input id="passwordR" type="password" class="w-full mt-1 p-2 rounded-md border" />
+          <input id="passwordR" type="password" class="w-full mt-1 p-2 rounded-md border" required />
         </div>
         <div>
           <label class="text-sm font-medium text-gray-700">Nhập lại mật khẩu :</label>
           <input id="confirmPasswordR" name="confirmPasswordR" type="password"
-            class="w-full mt-1 p-2 rounded-md border" />
+            class="w-full mt-1 p-2 rounded-md border" required />
         </div>
 
         <div class="flex items-start text-sm mt-2">

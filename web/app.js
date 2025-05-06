@@ -58,7 +58,6 @@ async function register() {
   const password = document.getElementById('passwordR').value;
   const confirmPassword = document.getElementById('confirmPasswordR').value;
   const agree = document.getElementById('agree').checked;
-
   if (password !== confirmPassword) {
     alert('👉 Mật khẩu nhập lại không khớp!');
     return;
@@ -81,11 +80,11 @@ async function register() {
       alert(data.message);
       showForm('loginForm');
     } else {
-      alert(data.message);
+      alert(`❌ Lỗi: ${data.message || 'Có lỗi xảy ra, vui lòng thử lại!'}`);
     }
   } catch (err) {
     console.error(err);
-    alert('❌ Đã có lỗi xảy ra!');
+    alert('❌ Đã có lỗi xảy ra! Vui lòng thử lại sau.');
   }
 }
 
@@ -125,12 +124,16 @@ async function login() {
     });
 
     const data = await res.json();
+
     if (res.ok) {
       alert(data.message);
+      window.location.href = 'dashboard.html';
+    } else {
+      alert(`❌ Lỗi: ${data.message || 'Có lỗi xảy ra, vui lòng thử lại!'}`);
     }
   } catch (err) {
     console.error(err);
-    alert('❌ Đã có lỗi xảy ra!');
+    alert('❌ Đã có lỗi xảy ra! Vui lòng thử lại sau.');
   }
 }
 
