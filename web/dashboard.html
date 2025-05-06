@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <html lang="vi">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Trang chủ - Lịch tháng</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-
 <body class="bg-[#9BE4FF] min-h-screen flex flex-col items-center p-4 font-sans">
 
   <!-- Thanh điều hướng -->
@@ -22,11 +20,9 @@
     <!-- Tiêu đề tháng -->
     <div class="flex items-center justify-center mb-4 gap-2">
       <button class="text-2xl px-2" onclick="changeMonth(-1)">←</button>
-      <h1 id="monthTitle" class="text-2xl font-bold bg-[#FFA16C] text-white px-4 py-1 rounded">THÁNG 3</h1>
+      <h1 id="monthTitle" class="text-2xl font-bold bg-[#FFA16C] text-white px-4 py-1 rounded">THÁNG 5</h1>
       <button class="text-2xl px-2" onclick="changeMonth(1)">→</button>
-      <select id="yearSelect" onchange="changeYear(this.value)" class="ml-2 rounded px-2 py-1 bg-white shadow text-sm">
-        <!-- Năm sẽ được thêm bằng JS -->
-      </select>
+      <select id="yearSelect" onchange="changeYear(this.value)" class="ml-2 rounded px-2 py-1 bg-white shadow text-sm"></select>
     </div>
 
     <!-- Bộ chọn chế độ -->
@@ -39,7 +35,6 @@
 
     <!-- Bảng ngày -->
     <div id="calendarGrid" class="grid grid-cols-7 gap-1 text-center text-sm">
-      <!-- Header thứ -->
       <div class="font-bold">Thứ 2</div>
       <div class="font-bold">Thứ 3</div>
       <div class="font-bold">Thứ 4</div>
@@ -62,7 +57,7 @@
     <button id="saveEventBtn" class="bg-pink-400 text-white px-4 py-2 rounded w-full">Lưu</button>
   </div>
 
-  <!-- Popup chi tiết ngày -->
+  <!-- Popup -->
   <div id="popup" class="hidden fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
     <div class="bg-white p-4 rounded shadow w-80 text-center relative">
       <button onclick="closePopup()" class="absolute top-2 right-2 text-gray-500 hover:text-red-500 text-lg">&times;</button>
@@ -76,10 +71,11 @@
   </div>
 
   <script>
-    let currentMonth = 4;  // Tháng 5 (0-indexed)
+    let currentMonth = 4;
     let currentYear = 2025;
     let selectedDateKey = "";
     let editingKey = null;
+
     const monthNames = ["Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"];
 
     function showTab(tab) {
@@ -98,10 +94,6 @@
       const calendarGrid = document.getElementById("calendarGrid");
 
       monthTitle.innerText = monthNames[currentMonth];
-
-      const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-      const firstDay = (new Date(currentYear, currentMonth, 1).getDay() + 6) % 7;
-
       calendarGrid.innerHTML = `
         <div class="font-bold">Thứ 2</div>
         <div class="font-bold">Thứ 3</div>
@@ -112,17 +104,21 @@
         <div class="font-bold">CN</div>
       `;
 
-      let day = 1;
-      for (let i = 0; i < 6 * 7; i++) {
+      const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+      const firstDayIndex = (new Date(currentYear, currentMonth, 1).getDay() + 6) % 7;
+
+      const totalCells = Math.ceil((firstDayIndex + daysInMonth) / 7) * 7;
+
+      for (let i = 0; i < totalCells; i++) {
         const cell = document.createElement("div");
-        if (i >= firstDay && day <= daysInMonth) {
+        if (i >= firstDayIndex && i < firstDayIndex + daysInMonth) {
+          const day = i - firstDayIndex + 1;
           const key = `${currentYear}-${currentMonth + 1}-${day}`;
           const event = localStorage.getItem(key);
           cell.innerHTML = `<div class="bg-[#FFD6E7] p-1 cursor-pointer rounded h-full" onclick="showPopup(${day})">
                               <div class="font-semibold">${day}</div>
                               ${event ? `<div class="text-xs text-pink-800 truncate">${JSON.parse(event).title}</div>` : ""}
                             </div>`;
-          day++;
         } else {
           cell.innerHTML = "";
         }
@@ -151,12 +147,11 @@
     function showPopup(day) {
       const key = `${currentYear}-${currentMonth + 1}-${day}`;
       selectedDateKey = key;
-      const dateDisplay = `${day}/${currentMonth + 1}/${currentYear}`;
-      document.getElementById("popupDate").innerText = dateDisplay;
-
       const event = localStorage.getItem(key);
       const list = document.getElementById("eventList");
       const actions = document.getElementById("popupActions");
+
+      document.getElementById("popupDate").innerText = `${day}/${currentMonth + 1}/${currentYear}`;
       list.innerHTML = "";
       actions.classList.add("hidden");
 
@@ -211,7 +206,6 @@
       const event = { title, time, description };
       localStorage.setItem(key, JSON.stringify(event));
 
-      // Reset
       editingKey = null;
       document.getElementById("titleInput").value = "";
       document.getElementById("timeInput").value = "";
@@ -230,10 +224,8 @@
       if (y === currentYear) option.selected = true;
       yearSelect.appendChild(option);
     }
- 
+
     renderCalendar();
   </script>
-  
 </body>
-
 </html>
