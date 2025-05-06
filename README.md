@@ -26,9 +26,24 @@
 📌 Tính năng chính:
 -------------------
     📦 API đăng ký / đăng nhập với MongoDB
+    
     🎨 Giao diện HTML/CSS/JS tĩnh
+
     🔗 Frontend gửi request đến API
+
     📦 Docker Compose quản lý đa container
+
+    ✅ Đăng ký / Đăng nhập người dùng
+
+    📅 Tạo, xoá, chỉnh sửa sự kiện và công việc cá nhân
+
+    📆 Xem lịch theo ngày, tuần, hoặc tháng
+
+    🔄 Đồng bộ dữ liệu với MongoDB phía server
+
+    🖼️ Giao diện đơn giản, trực quan, dễ sử dụng
+
+    🐳 Đóng gói & triển khai đa container bằng Docker Compose
 
 🎛️ Giới thiệu website:
 ---------------------
