@@ -2,14 +2,14 @@ import User from '../models/scheduleModel.js';
 
 export const createSchedule = async (req, res) => {
     try {
-    const { title, time, description,priority } = req.body;
+    const { title, time, description } = req.body;
     // Kiểm tra xem người dùng đã tồn tại
     const existingTime = await Schedule.findOne({ time });
     if (existingTime) {
       return res.status(400).json({ message: 'Thời gian này đã có một sự kiện khác!' });
     }
 
-    const newSchedule = new Schedule({ title, time, description,priority });
+    const newSchedule = new Schedule({ title, time, description });
 
     // Lưu người dùng vào database
     await newSchedule.save();

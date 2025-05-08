@@ -307,3 +307,44 @@ for (let y = 2020; y <= 2030; y++) {
 }
 
 renderCalendar();
+
+async function saveEvent() {
+  const title = document.getElementById('titleInput').value;
+  const time = document.getElementById('timeInput').value;
+  const description = document.getElementById('descInput').value;
+
+  if (!title || !time) {
+    alert('Vui lòng nhập tiêu đề và thời gian!');
+    return;
+  }
+
+  try {
+    const res = await fetch(`${apiUrl}/create`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        user: userId,
+        title,
+        time,
+        description
+      })
+    });
+
+    const data = await res.json();
+
+    if (res.ok) {
+      alert('🎉 Sự kiện đã được lưu!');
+      // Xoá input sau khi lưu
+      document.getElementById('titleInput').value = '';
+      document.getElementById('timeInput').value = '';
+      document.getElementById('descInput').value = '';
+      // Hoặc chuyển tab về calendar
+      window.location.href = 'dashboard.html'; 
+    } else {
+      alert(`❌ Lỗi: ${data.message || 'Có lỗi xảy ra, vui lòng thử lại!'}`);
+    }
+  } catch (err) {
+    console.error(err);
+    alert('❌ Đã có lỗi xảy ra! Vui lòng thử lại sau.');
+  }
+}

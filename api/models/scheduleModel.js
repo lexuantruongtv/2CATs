@@ -9,7 +9,6 @@ const scheduleSchema = new mongoose.Schema({
     title: { type: String, required: true },
     time: { type: Date, required: true },
     description: { type: String },
-    priority: { type: String, required: true },
 });
 
 const Schedule = mongoose.model('Schedule', scheduleSchema);
