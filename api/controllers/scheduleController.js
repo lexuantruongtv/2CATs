@@ -2,22 +2,14 @@ import User from '../models/scheduleModel.js';
 
 export const createSchedule = async (req, res) => {
     try {
-<<<<<<< HEAD
     const { title, time, description } = req.body;
-=======
-    const { title, time, description} = req.body;
->>>>>>> 493a71a3aca29233b27e7f0bef78d0bca679ad71
     // Kiểm tra xem người dùng đã tồn tại
     const existingTime = await Schedule.findOne({ time });
     if (existingTime) {
       return res.status(400).json({ message: 'Thời gian này đã có một sự kiện khác!' });
     }
 
-<<<<<<< HEAD
     const newSchedule = new Schedule({ title, time, description });
-=======
-    const newSchedule = new Schedule({ title, time, description});
->>>>>>> 493a71a3aca29233b27e7f0bef78d0bca679ad71
 
     // Lưu người dùng vào database
     await newSchedule.save();
@@ -89,3 +81,31 @@ export const getSchedule = async (req, res) => {
   }
 };
 
+export const loginUser = async (req, res) => {
+  try {
+    const { username, password } = req.body;
+    // Kiểm tra người dùng có tồn tại không
+    const user = await User.findOne({ username });
+    if (!user) {
+      return res.status(400).json({ message: 'Sai tên đăng nhập hoặc mật khẩu' });
+    }
+
+    // Kiểm tra mật khẩu
+    if (password !== user.password) {
+      return res.status(400).json({ message: 'Sai tên đăng nhập hoặc mật khẩu' });
+    }
+
+    res.json({ message: 'Đăng nhập thành công! 🐱🎉' });
+  } catch (err) {
+    res.status(500).json({ message: ` ${err.message}` });
+  }
+};
+
+export const getAllUsers = async (req, res) => {
+  try {
+    const users = await User.find();  // lấy toàn bộ user trong MongoDB
+    res.json(users);
+  } catch (error) {
+    res.status(500).json({ error: '❌ Có ai trong đây đâu, đăng ký đi' });
+  }
+};
