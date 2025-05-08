@@ -306,7 +306,6 @@ for (let y = 2020; y <= 2030; y++) {
   yearSelect.appendChild(option);
 }
 
-<<<<<<< HEAD
 renderCalendar();
 
 async function saveEvent() {
@@ -349,7 +348,3 @@ async function saveEvent() {
     alert('❌ Đã có lỗi xảy ra! Vui lòng thử lại sau.');
   }
 }
-=======
-
-renderCalendar();
->>>>>>> 493a71a3aca29233b27e7f0bef78d0bca679ad71
