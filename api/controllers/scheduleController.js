@@ -1,20 +1,20 @@
-import User from '../models/userModel.js';
+import User from '../models/scheduleModel.js';
 
-export const registerUser = async (req, res) => {
+export const createSchedule = async (req, res) => {
     try {
-    const { username, phone, password } = req.body;
+    const { title, time, description,priority } = req.body;
     // Kiểm tra xem người dùng đã tồn tại
-    const existingUser = await User.findOne({ username });
-    if (existingUser) {
-      return res.status(400).json({ message: 'Tên đăng nhập đã tồn tại' });
+    const existingTime = await Schedule.findOne({ time });
+    if (existingTime) {
+      return res.status(400).json({ message: 'Thời gian này đã có một sự kiện khác!' });
     }
 
-    const newUser = new User({ username, phone, password });
+    const newSchedule = new Schedule({ title, time, description,priority });
 
     // Lưu người dùng vào database
-    await newUser.save();
+    await newSchedule.save();
 
-    res.status(201).json({ message: 'Đăng ký thành công! 🐱🎉', user: { username, phone } });
+    res.status(201).json({ message: 'Tạo lịch thành công! 🐱🎉' });
   } catch (err) {
     res.status(500).json({ message: ` ${err.message}` });
   }
