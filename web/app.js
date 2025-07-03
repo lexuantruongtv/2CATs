@@ -1,5 +1,5 @@
-//const apiUrl = 'http://localhost:5000/api/users'; // URL của API backend
-const apiUrl = 'http://api:5000/api/users'; 
+const apiUrl = 'http://localhost:5000/api/users'; // URL của API backend
+
 // Chuyển đổi giữa các form
 function showForm(formId) {
   const forms = ['loginForm', 'registerForm', 'forgotForm'];
@@ -9,7 +9,7 @@ function showForm(formId) {
   forms.forEach(id => {
     document.getElementById(id).classList.add('hidden');
   });
-  
+
 
   document.getElementById(formId).classList.remove('hidden');
 
