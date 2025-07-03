@@ -6,5 +6,4 @@ const scheduleSchema = new mongoose.Schema({
     description: { type: String },
 });
 
-const Schedule = mongoose.model('Schedule', scheduleSchema);
-export default Schedule;
+export default scheduleSchema;

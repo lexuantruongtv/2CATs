@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import scheduleSchema from '../models/scheduleModel.js';
 
 const userSchema = new mongoose.Schema({
   username: {
@@ -15,11 +16,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  scheduleSchema: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Schedule',
-        required: true
-    },
+  schedule: [scheduleSchema],
 });
 
 const User = mongoose.model('User', userSchema);
