@@ -1,7 +1,7 @@
-const swaggerJSDoc = require('swagger-jsdoc');
+import swaggerJSDoc from 'swagger-jsdoc';
 
 const options = {
-  definition: {
+  dswaggerDefinition: {
     openapi: '3.0.0',
     info: {
       title: 'API',
@@ -10,13 +10,12 @@ const options = {
     },
     servers: [
       {
-        url: 'http://localhost:5000/api/users',
+        url: 'http://localhost:5000/api',
       },
     ],
   },
-  apis: ['./api/controllers/*.js'], // chỉ định file chứa swagger annotations
+  apis: ['./controllers/*.js'],
 };
 
 const swaggerSpec = swaggerJSDoc(options);
-
-module.exports = swaggerSpec;
+export default swaggerSpec;
