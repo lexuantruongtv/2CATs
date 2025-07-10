@@ -1,16 +1,13 @@
-import mongoose from 'mongoose';
+const mongoose = require("mongoose");
 
 const connectDB = async () => {
   try {
-    await mongoose.connect(process.env.MONGO_URI || 'mongodb://mongo:27017/schedule-db', {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
-    console.log('🚀✅ Đã kết nối với MongoDB...');
-  } catch (error) {
-    console.error('📦❌ Kết nối với MongoDB thất bại', error);
+    await mongoose.connect(process.env.MONGO_URI);
+    console.log("✅ MongoDB đã kết nối thành công");
+  } catch (err) {
+    console.error("❌ MongoDB kết nối thất bại:", err);
     process.exit(1);
   }
 };
 
-export default connectDB;
+module.exports = connectDB;

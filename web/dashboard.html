@@ -13,7 +13,7 @@
   <div class="w-full max-w-md bg-[#FFACC9] flex justify-around py-3 mb-4 rounded shadow">
     <button onclick="showTab('calendar')" class="text-white font-semibold">📅 LỊCH TRÌNH</button>
     <button onclick="showTab('eventForm')" class="text-white font-semibold">📝 SỰ KIỆN</button>
-    <button class="text-white font-semibold">⚙️ CÀI ĐẶT</button>
+    <button onclick="showTab('setting')" class="text-white font-semibold">⚙️ CÀI ĐẶT</button>
   </div>
 
   <!-- Tab: Lịch trình -->
@@ -55,6 +55,19 @@
     </div>
   </div>
 
-  
+  <!-- Tab: Cài đặt -->
+<div id="settingTab" class="w-full max-w-md hidden bg-white rounded p-4 shadow">
+  <h2 class="text-xl font-bold mb-4 text-center">⚙️ Cài đặt</h2>
+  <ul class="space-y-3">
+    <li class="flex justify-between items-center border-b pb-2">
+      <span>👤 Tài khoản:</span>
+      <span id="accountUsername" class="font-medium"></span>
+    </li>
+    <li>
+      <button onclick="logout()" class="bg-red-400 text-white px-4 py-2 rounded w-full hover:bg-red-500">🚪 Đăng xuất</button>
+    </li>
+  </ul>
+</div>
+
 </body>
 </html>

@@ -1,12 +1,14 @@
-import swaggerJSDoc from 'swagger-jsdoc';
+// config/swagger.js
+
+const swaggerJSDoc = require('swagger-jsdoc');
 
 const options = {
-  dswaggerDefinition: {
+  definition: {
     openapi: '3.0.0',
     info: {
-      title: 'API',
+      title: 'Project API',
       version: '1.0.0',
-      description: 'API documentation for backend',
+      description: 'API documentation for Project backend',
     },
     servers: [
       {
@@ -14,8 +16,9 @@ const options = {
       },
     ],
   },
-  apis: ['./controllers/*.js'],
+  apis: ['./routes/*.js'],
 };
 
 const swaggerSpec = swaggerJSDoc(options);
-export default swaggerSpec;
+
+module.exports = swaggerSpec;
