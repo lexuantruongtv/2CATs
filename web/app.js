@@ -202,6 +202,26 @@ window.onload = async () => {
 //     alert("❌ Lỗi khi lưu sự kiện!");
 //   }
 // }
+//
+// async function deleteSchedule(id) {
+//   if (!confirm("Xóa sự kiện này?")) return;
+//
+//   try {
+//     const res = await fetch(`${apiUrl}/accounts/${userId}/schedules/${id}`, { method: 'DELETE' });
+//     if (res.ok) {
+//       alert("🗑️ Xoá thành công!");
+//       await fetchSchedules();
+//       renderCalendar();
+//       closePopup();
+//     } else {
+//       const data = await res.json();
+//       alert(`❌ Lỗi: ${data.error}`);
+//     }
+//   } catch (err) {
+//     console.error(err);
+//     alert("❌ Lỗi khi xoá!");
+//   }
+// }
 
 // Có thêm Auth token
 async function fetchSchedules() {
@@ -260,7 +280,7 @@ async function saveEvent() {
       await fetchSchedules();
       renderCalendar();
       editingKey = null;
-      showTab('calendar');
+      cancelEvent();
     } else {
       alert(`❌ Lỗi: ${data.error}`);
     }
@@ -280,6 +300,38 @@ function cancelEvent() {
   closePopup();
   // Quay lại lịch
   showTab('calendar');
+}
+
+async function deleteSchedule(id) {
+  if (!confirm("Xóa sự kiện này?")) return;
+
+  try {
+    const token = localStorage.getItem("token"); // lấy token từ localStorage
+    if (!token) {
+      alert("❌ Chưa đăng nhập!");
+      return;
+    }
+
+    const res = await fetch(`${apiUrl}/accounts/${userId}/schedules/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+
+    if (res.ok) {
+      alert("🗑️ Xoá thành công!");
+      await fetchSchedules();
+      renderCalendar();
+      closePopup();
+    } else {
+      const data = await res.json();
+      alert(`❌ Lỗi: ${data.error}`);
+    }
+  } catch (err) {
+    console.error(err);
+    alert("❌ Lỗi khi xoá!");
+  }
 }
 
 function showTab(tab) {
@@ -315,7 +367,7 @@ function renderCalendar() {
       const currentDay = day;
 
       const content = document.createElement("div");
-      content.className = "bg-[#FFD6E7] p-1 rounded h-full cursor-pointer";
+      content.className = "bg-[#FFD6E7] p-1 rounded h-full cursor-pointer hover:bg-[#FFACC9]";
       content.onclick = () => showPopup(currentDay);
 
       const title = document.createElement("div");
@@ -454,26 +506,6 @@ function showPopup(day) {
 
 function closePopup() {
   document.getElementById("popup").classList.add("hidden");
-}
-
-async function deleteSchedule(id) {
-  if (!confirm("Xóa sự kiện này?")) return;
-
-  try {
-    const res = await fetch(`${apiUrl}/accounts/${userId}/schedules/${id}`, { method: 'DELETE' });
-    if (res.ok) {
-      alert("🗑️ Xoá thành công!");
-      await fetchSchedules();
-      renderCalendar();
-      closePopup();
-    } else {
-      const data = await res.json();
-      alert(`❌ Lỗi: ${data.error}`);
-    }
-  } catch (err) {
-    console.error(err);
-    alert("❌ Lỗi khi xoá!");
-  }
 }
 
 function renderSetting() {

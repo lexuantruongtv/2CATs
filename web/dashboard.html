@@ -19,16 +19,16 @@
   <!-- Tab: Lịch trình -->
   <div id="calendarTab" class="w-full max-w-md">
     <div class="flex items-center justify-center mb-4 gap-2">
-      <button class="text-xl p-2 rounded-full bg-gray-200 hover:bg-pink-300" onclick="changeMonth(-1)">⬅️</button>
+      <button class="hover:bg-[#FFACC9]" onclick="changeMonth(-1)">⬅️</button>
       <h1 id="monthTitle" class="text-2xl font-bold bg-[#FFA16C] text-white px-4 py-1 rounded">THÁNG 5</h1>
-      <button class="text-xl p-2 rounded-full bg-gray-200 hover:bg-pink-300" onclick="changeMonth(1)">➡️</button>
+      <button class="hover:bg-[#FFACC9]" onclick="changeMonth(1)">➡️</button>
       <select id="yearSelect" onchange="changeYear(this.value)" class="ml-2 rounded px-2 py-1 bg-white shadow text-sm"></select>
     </div>
     <div class="grid grid-cols-4 gap-2 mb-4">
-      <button class="bg-white px-4 py-1 rounded shadow text-sm font-medium">Tháng</button>
-      <button class="bg-white px-4 py-1 rounded shadow text-sm font-medium">Tuần</button>
-      <button class="bg-white px-4 py-1 rounded shadow text-sm font-medium">Năm</button>
-      <button class="bg-white px-4 py-1 rounded shadow text-sm font-medium">Danh sách</button>
+      <button class="bg-white px-4 py-1 rounded shadow text-sm font-medium hover:bg-[#FFACC9]">Tháng</button>
+      <button class="bg-white px-4 py-1 rounded shadow text-sm font-medium hover:bg-[#FFACC9]">Tuần</button>
+      <button class="bg-white px-4 py-1 rounded shadow text-sm font-medium hover:bg-[#FFACC9]">Năm</button>
+      <button class="bg-white px-4 py-1 rounded shadow text-sm font-medium hover:bg-[#FFACC9]">Danh sách</button>
     </div>
     <div id="calendarGrid" class="grid grid-cols-7 gap-1 text-center text-sm"></div>
   </div>
@@ -42,8 +42,14 @@
     <input id="timeInput" type="datetime-local" class="w-full border rounded p-2 mb-4" />
     <label class="block mb-2">Mô tả:</label>
     <textarea id="descInput" class="w-full border rounded p-2 mb-4" rows="3" placeholder="Chi tiết sự kiện"></textarea>
-    <button onclick="saveEvent()" id="saveEventBtn" class="bg-pink-400 text-white px-4 py-2 rounded w-full hover:bg-pink-500">💾 Lưu</button>
-    <button onclick="cancelEvent()" id="cancelEventBtn" class="bg-red-400 text-white px-4 py-2 rounded w-full hover:bg-red-500">❌ Hủy</button>
+    <ul class="space-y-3">
+      <li>
+        <button onclick="saveEvent()" id="saveEventBtn" class="bg-pink-400 text-white px-4 py-2 rounded w-full hover:bg-pink-500">💾 Lưu</button>
+      </li>
+      <li>
+        <button onclick="cancelEvent()" id="cancelEventBtn" class="bg-red-400 text-white px-4 py-2 rounded w-full hover:bg-red-500">❌ Hủy</button>
+      </li>
+    </ul>    
   </div>
 
   <!-- Popup -->
