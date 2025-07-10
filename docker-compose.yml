@@ -21,6 +21,7 @@ services:
       - /app/node_modules
     environment:
       - MONGO_URI=mongodb://mongo:27017/schedule-db
+      - JWT_SECRET=secret_key_2CATs  # Khóa bí mật JWT
     depends_on:
       - mongo
     networks:

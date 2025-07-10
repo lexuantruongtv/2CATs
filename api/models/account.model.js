@@ -14,6 +14,13 @@ const accountSchema = new mongoose.Schema({
   schedules: [scheduleSchema],
 });
 
+accountSchema.set("toJSON", {
+  transform: (doc, ret) => {
+    delete ret.password;
+    return ret;
+  }
+});
+
 const Account = mongoose.model('Account', accountSchema);
 
 module.exports = Account;

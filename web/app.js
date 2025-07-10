@@ -25,6 +25,80 @@ function showForm(formId) {
   }
 }
 
+// Không có Auth cho đăng ký/đăng nhập
+// async function register() {
+//   const username = document.getElementById('usernameR').value;
+//   const phone = document.getElementById('phoneR').value;
+//   const password = document.getElementById('passwordR').value;
+//   const confirmPassword = document.getElementById('confirmPasswordR').value;
+//   const agree = document.getElementById('agree').checked;
+
+//   if (password !== confirmPassword) return alert('👉 Mật khẩu nhập lại không khớp!');
+//   if (!agree) return alert('👉 Bạn phải đồng ý với điều khoản!');
+
+//   try {
+//     const res = await fetch(`${apiUrl}/accounts`, {
+//       method: 'POST',
+//       headers: { 'Content-Type': 'application/json' },
+//       body: JSON.stringify({ username, phone, password })
+//     });
+//     const data = await res.json();
+//     if (res.ok) {
+//       alert("🎉 Đăng ký thành công!");
+//       showForm('loginForm');
+//     } else alert(`❌ Lỗi: ${data.error}`);
+//   } catch (err) {
+//     console.error(err);
+//     alert('❌ Đã có lỗi xảy ra!');
+//   }
+// }
+
+// async function login() {
+//   const username = document.getElementById('usernameL').value;
+//   const password = document.getElementById('passwordL').value;
+
+//   try {
+//     const res = await fetch(`${apiUrl}/accounts/${username}`);
+//     const data = await res.json();
+//     if (res.ok) {
+//       if (data.password !== password) return alert("❌ Sai mật khẩu!");
+//       alert("🎉 Đăng nhập thành công!");
+//       localStorage.setItem("currentUser", username);
+//       window.location.href = 'dashboard.html';
+//     } else alert(`❌ Lỗi: ${data.error}`);
+//   } catch (err) {
+//     console.error(err);
+//     alert('❌ Đã có lỗi xảy ra!');
+//   }
+// }
+
+// Có thêm Auth cho đăng ký/đăng nhập
+async function login() {
+  const username = document.getElementById('usernameL').value;
+  const password = document.getElementById('passwordL').value;
+
+  try {
+    const res = await fetch(`${apiUrl}/auth/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, password })
+    });
+    const data = await res.json();
+
+    if (res.ok) {
+      alert("🎉 Đăng nhập thành công!");
+      localStorage.setItem("token", data.token); // Lưu token
+      localStorage.setItem("currentUser", username); // Lưu username
+      window.location.href = 'dashboard.html';
+    } else {
+      alert(`❌ Lỗi: ${data.error}`);
+    }
+  } catch (err) {
+    console.error(err);
+    alert('❌ Đã có lỗi xảy ra!');
+  }
+}
+
 async function register() {
   const username = document.getElementById('usernameR').value;
   const phone = document.getElementById('phoneR').value;
@@ -36,35 +110,19 @@ async function register() {
   if (!agree) return alert('👉 Bạn phải đồng ý với điều khoản!');
 
   try {
-    const res = await fetch(`${apiUrl}/accounts`, {
+    const res = await fetch(`${apiUrl}/auth/register`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username, phone, password })
     });
     const data = await res.json();
+
     if (res.ok) {
       alert("🎉 Đăng ký thành công!");
       showForm('loginForm');
-    } else alert(`❌ Lỗi: ${data.error}`);
-  } catch (err) {
-    console.error(err);
-    alert('❌ Đã có lỗi xảy ra!');
-  }
-}
-
-async function login() {
-  const username = document.getElementById('usernameL').value;
-  const password = document.getElementById('passwordL').value;
-
-  try {
-    const res = await fetch(`${apiUrl}/accounts/${username}`);
-    const data = await res.json();
-    if (res.ok) {
-      if (data.password !== password) return alert("❌ Sai mật khẩu!");
-      alert("🎉 Đăng nhập thành công!");
-      localStorage.setItem("currentUser", username);
-      window.location.href = 'dashboard.html';
-    } else alert(`❌ Lỗi: ${data.error}`);
+    } else {
+      alert(`❌ Lỗi: ${data.error}`);
+    }
   } catch (err) {
     console.error(err);
     alert('❌ Đã có lỗi xảy ra!');
@@ -73,6 +131,7 @@ async function login() {
 
 function logout() {
   localStorage.removeItem("currentUser");
+  localStorage.removeItem("token"); // Thêm token
   window.location.href = 'index.html';
 }
 
@@ -94,16 +153,133 @@ window.onload = async () => {
   }
 };
 
+// Không có Auth token
+// async function fetchSchedules() {
+//   try {
+//     const res = await fetch(`${apiUrl}/accounts/${userId}`);
+//     const data = await res.json();
+//     if (res.ok) schedules = data.schedules;
+//     else alert(`❌ Lỗi: ${data.error}`);
+//   } catch (err) {
+//     console.error(err);
+//     alert("❌ Lỗi khi tải lịch trình!");
+//   }
+// }
+
+// async function saveEvent() {
+//   const title = document.getElementById("titleInput").value;
+//   const datetime = document.getElementById("timeInput").value;
+//   const description = document.getElementById("descInput").value;
+
+//   if (!title || !datetime) return alert("Nhập tiêu đề và thời gian!");
+
+//   try {
+//     let res;
+//     if (editingKey) {
+//       res = await fetch(`${apiUrl}/accounts/${userId}/schedules/${editingKey}`, {
+//         method: 'PATCH',
+//         headers: { 'Content-Type': 'application/json' },
+//         body: JSON.stringify({ title, datetime, description })
+//       });
+//     } else {
+//       res = await fetch(`${apiUrl}/accounts/${userId}/schedules`, {
+//         method: 'POST',
+//         headers: { 'Content-Type': 'application/json' },
+//         body: JSON.stringify({ title, datetime, description })
+//       });
+//     }
+
+//     const data = await res.json();
+//     if (res.ok) {
+//       alert(editingKey ? '✏️ Cập nhật thành công!' : '🎉 Đã thêm!');
+//       await fetchSchedules();
+//       renderCalendar();
+//       editingKey = null;
+//       showTab('calendar');
+//     } else alert(`❌ Lỗi: ${data.error}`);
+//   } catch (err) {
+//     console.error(err);
+//     alert("❌ Lỗi khi lưu sự kiện!");
+//   }
+// }
+
+// Có thêm Auth token
 async function fetchSchedules() {
+  const token = localStorage.getItem("token");
   try {
-    const res = await fetch(`${apiUrl}/accounts/${userId}`);
+    const res = await fetch(`${apiUrl}/accounts/${userId}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
     const data = await res.json();
-    if (res.ok) schedules = data.schedules;
-    else alert(`❌ Lỗi: ${data.error}`);
+    if (res.ok) {
+      schedules = data.schedules;
+    } else {
+      alert(`❌ Lỗi: ${data.error}`);
+    }
   } catch (err) {
     console.error(err);
     alert("❌ Lỗi khi tải lịch trình!");
   }
+}
+
+async function saveEvent() {
+  const title = document.getElementById("titleInput").value;
+  const datetime = document.getElementById("timeInput").value;
+  const description = document.getElementById("descInput").value;
+  const token = localStorage.getItem("token");
+
+  if (!title || !datetime) return alert("Nhập tiêu đề và thời gian!");
+
+  try {
+    let res;
+    if (editingKey) {
+      res = await fetch(`${apiUrl}/accounts/${userId}/schedules/${editingKey}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ title, datetime, description })
+      });
+    } else {
+      res = await fetch(`${apiUrl}/accounts/${userId}/schedules`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ title, datetime, description })
+      });
+    }
+
+    const data = await res.json();
+    if (res.ok) {
+      alert(editingKey ? '✏️ Cập nhật thành công!' : '🎉 Đã thêm!');
+      await fetchSchedules();
+      renderCalendar();
+      editingKey = null;
+      showTab('calendar');
+    } else {
+      alert(`❌ Lỗi: ${data.error}`);
+    }
+  } catch (err) {
+    console.error(err);
+    alert("❌ Lỗi khi lưu sự kiện!");
+  }
+}
+
+function cancelEvent() {
+  // Xoá input
+  document.getElementById("titleInput").value = "";
+  document.getElementById("timeInput").value = "";
+  document.getElementById("descInput").value = "";
+  
+  editingKey = null;
+  closePopup();
+  // Quay lại lịch
+  showTab('calendar');
 }
 
 function showTab(tab) {
@@ -278,43 +454,6 @@ function showPopup(day) {
 
 function closePopup() {
   document.getElementById("popup").classList.add("hidden");
-}
-
-async function saveEvent() {
-  const title = document.getElementById("titleInput").value;
-  const datetime = document.getElementById("timeInput").value;
-  const description = document.getElementById("descInput").value;
-
-  if (!title || !datetime) return alert("Nhập tiêu đề và thời gian!");
-
-  try {
-    let res;
-    if (editingKey) {
-      res = await fetch(`${apiUrl}/accounts/${userId}/schedules/${editingKey}`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ title, datetime, description })
-      });
-    } else {
-      res = await fetch(`${apiUrl}/accounts/${userId}/schedules`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ title, datetime, description })
-      });
-    }
-
-    const data = await res.json();
-    if (res.ok) {
-      alert(editingKey ? '✏️ Cập nhật thành công!' : '🎉 Đã thêm!');
-      await fetchSchedules();
-      renderCalendar();
-      editingKey = null;
-      showTab('calendar');
-    } else alert(`❌ Lỗi: ${data.error}`);
-  } catch (err) {
-    console.error(err);
-    alert("❌ Lỗi khi lưu sự kiện!");
-  }
 }
 
 async function deleteSchedule(id) {

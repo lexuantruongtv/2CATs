@@ -8,6 +8,10 @@ const pkg = require("./package.json");
 const swaggerUi = require("swagger-ui-express");
 const swaggerSpec = require("./config/swagger");
 
+// Auth
+require("dotenv").config();
+const authRoutes = require("./auth/auth.routes");
+
 // Initialize app
 const app = express();
 const port = process.env.PORT || 5000;
@@ -35,6 +39,7 @@ app.get("/api", (req, res) => {
 
 // Main API routes
 app.use("/api", accountRoutes);
+app.use("/api/auth", authRoutes);
 
 // 404 Handler
 app.use((req, res, next) => {

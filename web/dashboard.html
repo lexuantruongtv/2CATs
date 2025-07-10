@@ -19,9 +19,9 @@
   <!-- Tab: Lịch trình -->
   <div id="calendarTab" class="w-full max-w-md">
     <div class="flex items-center justify-center mb-4 gap-2">
-      <button class="text-2xl px-2" onclick="changeMonth(-1)">←</button>
+      <button class="text-xl p-2 rounded-full bg-gray-200 hover:bg-pink-300" onclick="changeMonth(-1)">⬅️</button>
       <h1 id="monthTitle" class="text-2xl font-bold bg-[#FFA16C] text-white px-4 py-1 rounded">THÁNG 5</h1>
-      <button class="text-2xl px-2" onclick="changeMonth(1)">→</button>
+      <button class="text-xl p-2 rounded-full bg-gray-200 hover:bg-pink-300" onclick="changeMonth(1)">➡️</button>
       <select id="yearSelect" onchange="changeYear(this.value)" class="ml-2 rounded px-2 py-1 bg-white shadow text-sm"></select>
     </div>
     <div class="grid grid-cols-4 gap-2 mb-4">
@@ -42,7 +42,8 @@
     <input id="timeInput" type="datetime-local" class="w-full border rounded p-2 mb-4" />
     <label class="block mb-2">Mô tả:</label>
     <textarea id="descInput" class="w-full border rounded p-2 mb-4" rows="3" placeholder="Chi tiết sự kiện"></textarea>
-    <button onclick="saveEvent()" id="saveEventBtn" class="bg-pink-400 text-white px-4 py-2 rounded w-full">Lưu</button>
+    <button onclick="saveEvent()" id="saveEventBtn" class="bg-pink-400 text-white px-4 py-2 rounded w-full hover:bg-pink-500">💾 Lưu</button>
+    <button onclick="cancelEvent()" id="cancelEventBtn" class="bg-red-400 text-white px-4 py-2 rounded w-full hover:bg-red-500">❌ Hủy</button>
   </div>
 
   <!-- Popup -->
@@ -57,10 +58,10 @@
 
   <!-- Tab: Cài đặt -->
 <div id="settingTab" class="w-full max-w-md hidden bg-white rounded p-4 shadow">
-  <h2 class="text-xl font-bold mb-4 text-center">⚙️ Cài đặt</h2>
+  <h2 class="text-xl font-bold mb-4 text-center">Cài đặt</h2>
   <ul class="space-y-3">
     <li class="flex justify-between items-center border-b pb-2">
-      <span>👤 Tài khoản:</span>
+      <span>👤 Tên tài khoản:</span>
       <span id="accountUsername" class="font-medium"></span>
     </li>
     <li>
