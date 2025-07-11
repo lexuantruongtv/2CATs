@@ -29,7 +29,7 @@ const addSchedule = async (username, { title, datetime, description }) => {
 
   if (!title || title.trim() === "") throw new Error("Tiêu đề trống");
 
-  const id = crypto.createHash("md5").update(title + description).digest("hex");
+  const id = crypto.createHash("md5").update(title + datetime + description).digest("hex");
 
   if (acc.schedules.some((tx) => tx.id === id)) {
     throw new Error("Lịch trình đã tồn tại");
