@@ -365,7 +365,7 @@ function renderCalendar() {
 
   for (let i = 0; i < 42; i++) {
     const cell = document.createElement("div");
-    cell.className = "min-h-[80px] bg-white rounded p-1 overflow-hidden text-left";
+    cell.className = "min-h-[80px] bg-white rounded p-1 overflow-hidden text-left dark:bg-gray-700";
 
     if (i >= firstDay && day <= daysInMonth) {
       const currentDay = day;
