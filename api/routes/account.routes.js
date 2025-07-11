@@ -194,4 +194,34 @@ router.delete("/accounts/:username/schedules/:id", auth, controller.deleteSchedu
 //router.patch("/accounts/:username/schedules/:id", controller.updateSchedule);
 router.patch("/accounts/:username/schedules/:id", auth, controller.updateSchedule);
 
+/**
+ * @swagger
+ * /accounts/change-password:
+ *   put:
+ *     summary: Đổi mật khẩu người dùng hiện tại
+ *     tags: [Accounts]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               currentPassword:
+ *                 type: string
+ *               newPassword:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Đổi mật khẩu thành công
+ *       400:
+ *         description: Lỗi đổi mật khẩu
+ *       401:
+ *         description: Chưa đăng nhập hoặc token không hợp lệ
+ */
+
+router.put("/accounts/change-password", auth, controller.changePassword);
+
 module.exports = router;

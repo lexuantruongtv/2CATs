@@ -49,3 +49,13 @@ exports.updateSchedule = async (req, res) => {
     res.status(400).json({ error: err.message });
   }
 };
+
+exports.changePassword = async (req, res) => {
+  try {
+    const result = await service.changePassword(req.user.username, req.body);
+    res.json(result);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+};
+

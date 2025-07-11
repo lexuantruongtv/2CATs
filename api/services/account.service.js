@@ -1,5 +1,6 @@
 const Account = require("../models/account.model");
 const crypto = require("crypto");
+const bcrypt = require("bcryptjs");
 
 const createAccount = async ({ username, phone, password }) => {
   const exists = await Account.findOne({ username });
@@ -69,6 +70,20 @@ const updateSchedule = async (username, id, { title, datetime, description }) =>
   return acc.schedules[index];
 };
 
+const changePassword = async (username, { currentPassword, newPassword }) => {
+  const user = await Account.findOne({ username }).select("+password");
+  if (!user) throw new Error("Không tìm thấy tài khoản");
+
+  const isMatch = await bcrypt.compare(currentPassword, user.password);
+  if (!isMatch) throw new Error("Mật khẩu hiện tại không đúng");
+
+  const hashedPassword = await bcrypt.hash(newPassword, 10);
+  user.password = hashedPassword;
+
+  await user.save();
+  return { message: "Đổi mật khẩu thành công" };
+};
+
 module.exports = {
   createAccount,
   getAccount,
@@ -76,4 +91,5 @@ module.exports = {
   addSchedule,
   deleteSchedule,
   updateSchedule,
+  changePassword
 };

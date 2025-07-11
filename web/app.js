@@ -352,10 +352,14 @@ function renderCalendar() {
   const firstDay = (new Date(currentYear, currentMonth, 1).getDay() + 6) % 7;
 
   calendarGrid.innerHTML = `
-    <div class="font-bold">Thứ 2</div><div class="font-bold">Thứ 3</div>
-    <div class="font-bold">Thứ 4</div><div class="font-bold">Thứ 5</div>
-    <div class="font-bold">Thứ 6</div><div class="font-bold">Thứ 7</div>
-    <div class="font-bold">CN</div>`;
+    <div class="font-bold dark:text-white">Thứ 2</div>
+    <div class="font-bold dark:text-white">Thứ 3</div>
+    <div class="font-bold dark:text-white">Thứ 4</div>
+    <div class="font-bold dark:text-white">Thứ 5</div>
+    <div class="font-bold dark:text-white">Thứ 6</div>
+    <div class="font-bold dark:text-white">Thứ 7</div>
+    <div class="font-bold dark:text-white">CN</div>
+  `;
 
   let day = 1;
 
@@ -510,4 +514,64 @@ function closePopup() {
 
 function renderSetting() {
   document.getElementById("accountUsername").textContent = localStorage.getItem("currentUser");
+}
+
+// Toggle giao diện khi bật/tắt công tắc
+function toggleTheme() {
+  const isDark = document.getElementById('themeToggle').checked;
+  document.documentElement.classList.toggle('dark', isDark);
+  localStorage.setItem('theme', isDark ? 'dark' : 'light');
+}
+
+// Load theme lúc khởi động trang
+window.addEventListener('DOMContentLoaded', () => {
+  const savedTheme = localStorage.removeItem('theme')
+
+  // Nếu đã lưu 'dark' thì bật dark mode, còn không thì giữ sáng mặc định
+  if (savedTheme === 'dark') {
+    document.documentElement.classList.add('dark');
+  }
+
+  // Đồng bộ trạng thái công tắc nếu có phần tử
+  const themeToggle = document.getElementById('themeToggle');
+  if (themeToggle) {
+    themeToggle.checked = (savedTheme === 'dark');
+  }
+});
+
+// Đổi mật khẩu
+async function changePassword() {
+  const currentPassword = document.getElementById('currentPasswordInput').value;
+  const newPassword = document.getElementById('newPasswordInput').value;
+  const userId = localStorage.getItem('userId');
+  const token = localStorage.getItem('token');
+
+  if (!currentPassword || !newPassword) {
+    alert('Vui lòng nhập đầy đủ mật khẩu cũ và mới!');
+    return;
+  }
+
+  if (!token) {
+    alert("❌ Bạn chưa đăng nhập!");
+    return;
+  }
+
+  const res = await fetch(`${apiUrl}/accounts/change-password`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    },
+    body: JSON.stringify({ currentPassword, newPassword })
+  });
+
+  const data = await res.json();
+
+  if (res.ok) {
+    alert('✅ Đổi mật khẩu thành công!');
+    document.getElementById('currentPasswordInput').value = '';
+    document.getElementById('newPasswordInput').value = '';
+  } else {
+    alert(`❌ Lỗi khi đổi mật khẩu! ${data.message}`);
+  }
 }

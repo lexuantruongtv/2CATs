@@ -4,13 +4,28 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Trang chủ - Lịch tháng</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+
+<!-- Tailwind CSS CDN -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+<!-- Config sau khi Tailwind đã load -->
+<script>
+  tailwind.config = {
+    darkMode: 'class',
+    theme: {
+      extend: {}
+    }
+  }
+</script>
+
+  <!-- App script -->
   <script src="app.js" defer></script>
 </head>
-<body class="bg-[#9BE4FF] min-h-screen flex flex-col items-center p-4 font-sans">
+
+<body class="bg-[#9BE4FF] dark:bg-gray-900 min-h-screen flex flex-col items-center p-4 font-sans">
 
   <!-- Thanh điều hướng -->
-  <div class="w-full max-w-md bg-[#FFACC9] flex justify-around py-3 mb-4 rounded shadow">
+  <div class="w-full max-w-md bg-[#FFACC9] dark:bg-pink-500 flex justify-around py-3 mb-4 rounded shadow">
     <button onclick="showTab('calendar')" class="text-white font-semibold">📅 LỊCH TRÌNH</button>
     <button onclick="showTab('eventForm')" class="text-white font-semibold">📝 SỰ KIỆN</button>
     <button onclick="showTab('setting')" class="text-white font-semibold">⚙️ CÀI ĐẶT</button>
@@ -19,29 +34,29 @@
   <!-- Tab: Lịch trình -->
   <div id="calendarTab" class="w-full max-w-md">
     <div class="flex items-center justify-center mb-4 gap-2">
-      <button class="hover:bg-[#FFACC9]" onclick="changeMonth(-1)">⬅️</button>
-      <h1 id="monthTitle" class="text-2xl font-bold bg-[#FFA16C] text-white px-4 py-1 rounded">THÁNG 5</h1>
-      <button class="hover:bg-[#FFACC9]" onclick="changeMonth(1)">➡️</button>
-      <select id="yearSelect" onchange="changeYear(this.value)" class="ml-2 rounded px-2 py-1 bg-white shadow text-sm"></select>
+      <button class="hover:bg-[#FFACC9] dark:hover:bg-pink-500" onclick="changeMonth(-1)">⬅️</button>
+      <h1 id="monthTitle" class="text-2xl font-bold bg-[#FFA16C] dark:bg-pink-600 text-white px-4 py-1 rounded">THÁNG 5</h1>
+      <button class="hover:bg-[#FFACC9] dark:hover:bg-pink-500" onclick="changeMonth(1)">➡️</button>
+      <select id="yearSelect" onchange="changeYear(this.value)" class="ml-2 rounded px-2 py-1 bg-white dark:bg-gray-700 shadow text-sm dark:text-white"></select>
     </div>
     <div class="grid grid-cols-4 gap-2 mb-4">
-      <button class="bg-white px-4 py-1 rounded shadow text-sm font-medium hover:bg-[#FFACC9]">Tháng</button>
-      <button class="bg-white px-4 py-1 rounded shadow text-sm font-medium hover:bg-[#FFACC9]">Tuần</button>
-      <button class="bg-white px-4 py-1 rounded shadow text-sm font-medium hover:bg-[#FFACC9]">Năm</button>
-      <button class="bg-white px-4 py-1 rounded shadow text-sm font-medium hover:bg-[#FFACC9]">Danh sách</button>
+      <button class="bg-white dark:bg-gray-800 px-4 py-1 rounded shadow text-sm font-medium hover:bg-[#FFACC9] dark:hover:bg-pink-500 dark:text-white">Tháng</button>
+      <button class="bg-white dark:bg-gray-800 px-4 py-1 rounded shadow text-sm font-medium hover:bg-[#FFACC9] dark:hover:bg-pink-500 dark:text-white">Tuần</button>
+      <button class="bg-white dark:bg-gray-800 px-4 py-1 rounded shadow text-sm font-medium hover:bg-[#FFACC9] dark:hover:bg-pink-500 dark:text-white">Năm</button>
+      <button class="bg-white dark:bg-gray-800 px-4 py-1 rounded shadow text-sm font-medium hover:bg-[#FFACC9] dark:hover:bg-pink-500 dark:text-white">Danh sách</button>
     </div>
     <div id="calendarGrid" class="grid grid-cols-7 gap-1 text-center text-sm"></div>
   </div>
 
   <!-- Tab: Tạo sự kiện -->
-  <div id="eventFormTab" class="w-full max-w-md hidden bg-white rounded p-4 shadow">
-    <h2 class="text-xl font-bold mb-4 text-center">Tạo sự kiện</h2>
-    <label class="block mb-2">Tiêu đề:</label>
-    <input id="titleInput" type="text" class="w-full border rounded p-2 mb-4" placeholder="Nhập tiêu đề..." />
-    <label class="block mb-2">Ngày & Giờ:</label>
-    <input id="timeInput" type="datetime-local" class="w-full border rounded p-2 mb-4" />
-    <label class="block mb-2">Mô tả:</label>
-    <textarea id="descInput" class="w-full border rounded p-2 mb-4" rows="3" placeholder="Chi tiết sự kiện"></textarea>
+  <div id="eventFormTab" class="w-full max-w-md hidden bg-white dark:bg-gray-800 rounded p-4 shadow">
+    <h2 class="text-xl font-bold mb-4 text-center text-black dark:text-white">Tạo sự kiện</h2>
+    <label class="block mb-2 text-black dark:text-white">Tiêu đề:</label>
+    <input id="titleInput" type="text" class="w-full border rounded p-2 mb-4 bg-white dark:bg-gray-700 text-black dark:text-white" placeholder="Nhập tiêu đề..." />
+    <label class="block mb-2 text-black dark:text-white">Ngày & Giờ:</label>
+    <input id="timeInput" type="datetime-local" class="w-full border rounded p-2 mb-4 bg-white dark:bg-gray-700 text-black dark:text-white" />
+    <label class="block mb-2 text-black dark:text-white">Mô tả:</label>
+    <textarea id="descInput" class="w-full border rounded p-2 mb-4 bg-white dark:bg-gray-700 text-black dark:text-white" rows="3" placeholder="Chi tiết sự kiện"></textarea>
     <ul class="space-y-3">
       <li>
         <button onclick="saveEvent()" id="saveEventBtn" class="bg-pink-400 text-white px-4 py-2 rounded w-full hover:bg-pink-500">💾 Lưu</button>
@@ -54,27 +69,45 @@
 
   <!-- Popup -->
   <div id="popup" class="hidden fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
-    <div class="bg-white p-4 rounded shadow w-80 text-center relative">
-      <button onclick="closePopup()" class="absolute top-2 right-2 text-gray-500 hover:text-red-500 text-lg">&times;</button>
-      <h3 class="text-xl font-bold mb-3">Chi tiết ngày <span id="popupDate"></span></h3>
-      <div id="eventList" class="text-sm text-left text-gray-700 mb-3"></div>
+    <div class="bg-white dark:bg-gray-800 p-4 rounded shadow w-80 text-center relative">
+      <button onclick="closePopup()" class="absolute top-2 right-2 text-gray-500 dark:text-gray-300 hover:text-red-500 text-lg">&times;</button>
+      <h3 class="text-xl font-bold mb-3 text-black dark:text-white">Chi tiết ngày <span id="popupDate"></span></h3>
+      <div id="eventList" class="text-sm text-left text-gray-700 dark:text-gray-300 mb-3"></div>
       <div id="popupActions" class="flex justify-end gap-2 mt-3"></div>
     </div>
   </div>
 
   <!-- Tab: Cài đặt -->
-<div id="settingTab" class="w-full max-w-md hidden bg-white rounded p-4 shadow">
-  <h2 class="text-xl font-bold mb-4 text-center">Cài đặt</h2>
-  <ul class="space-y-3">
-    <li class="flex justify-between items-center border-b pb-2">
-      <span>👤 Tên tài khoản:</span>
-      <span id="accountUsername" class="font-medium"></span>
-    </li>
-    <li>
-      <button onclick="logout()" class="bg-red-400 text-white px-4 py-2 rounded w-full hover:bg-red-500">🚪 Đăng xuất</button>
-    </li>
-  </ul>
-</div>
+  <div id="settingTab" class="w-full max-w-md hidden bg-white dark:bg-gray-800 rounded p-4 shadow">
+    <h2 class="text-xl font-bold mb-4 text-center text-black dark:text-white">Cài đặt</h2>
+    <ul class="space-y-3">
+      <li class="flex justify-between items-center border-b pb-2 border-gray-300 dark:border-gray-600">
+        <span class="text-black dark:text-white">👤 Tên tài khoản:</span>
+        <span id="accountUsername" class="font-medium text-black dark:text-white"></span>
+      </li>
+      <li class="border-b pb-2 border-gray-300 dark:border-gray-600">
+        <label class="block mb-1 text-black dark:text-white">🔒 Đổi mật khẩu:</label>
+        <input id="currentPasswordInput" type="password" placeholder="Nhập mật khẩu cũ" class="w-full border rounded p-2 mb-2 bg-white dark:bg-gray-700 text-black dark:text-white" />
+        <input id="newPasswordInput" type="password" placeholder="Nhập mật khẩu mới" class="w-full border rounded p-2 mb-2 bg-white dark:bg-gray-700 text-black dark:text-white" />
+        <button onclick="changePassword()" class="bg-pink-400 text-white px-4 py-2 rounded w-full hover:bg-pink-500">Đổi mật khẩu</button>
+      </li>
+      <li class="flex justify-between items-center border-b pb-2 border-gray-300 dark:border-gray-600">
+        <span class="text-black dark:text-white">🌓 Giao diện:</span>
+        <label for="themeToggle" class="inline-flex items-center cursor-pointer">
+          <span class="text-sm mr-1">🌞</span>
+          <div class="relative">
+            <input type="checkbox" id="themeToggle" class="sr-only peer" onchange="toggleTheme()">
+            <div class="w-11 h-6 bg-gray-300 dark:bg-gray-600 rounded-full peer peer-checked:bg-pink-400 transition-colors"></div>
+            <div class="absolute left-0.5 top-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform peer-checked:translate-x-5"></div>
+          </div>
+          <span class="text-sm ml-1">🌙</span>
+        </label>
+      </li>
+      <li>
+        <button onclick="logout()" class="bg-red-400 text-white px-4 py-2 rounded w-full hover:bg-red-500">🚪 Đăng xuất</button>
+      </li>
+    </ul>
+  </div>
 
 </body>
 </html>
