@@ -301,7 +301,7 @@ function cancelEvent() {
   document.getElementById("timeInput").value = "";
   document.getElementById("descInput").value = "";
   document.getElementById("notifyInput").checked = false;
-  
+
   editingKey = null;
   closePopup();
   // Quay lại lịch
@@ -505,7 +505,7 @@ function showPopup(day) {
   addBtn.onclick = () => {
     document.getElementById("titleInput").value = "";
     document.getElementById("descInput").value = "";
-    document.getElementById("timeInput").value = `${currentYear}-${String(currentMonth+1).padStart(2, '0')}-${String(day).padStart(2, '0')}T09:00`;
+    document.getElementById("timeInput").value = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}T09:00`;
     document.getElementById("notifyInput").checked = false;
     editingKey = null;
     showTab("eventForm");
@@ -587,9 +587,24 @@ async function changePassword() {
     document.getElementById('newPasswordInput').value = '';
   } else {
     alert(`❌ Lỗi khi đổi mật khẩu! ${data.message}`);
+    document.getElementById('currentPasswordInput').value = '';
+    document.getElementById('newPasswordInput').value = '';
   }
 }
 
+// Hiển thị mật khẩu
+function togglePassword(inputId, btn) {
+  const input = document.getElementById(inputId);
+  if (input.type === "password") {
+    input.type = "text";
+    btn.textContent = "🙈";
+  } else {
+    input.type = "password";
+    btn.textContent = "👁️";
+  }
+}
+
+// Thông báo nhắc nhở
 function startNotificationChecker() {
   if (notificationInterval) clearInterval(notificationInterval);
   notifiedEvents = new Set();
@@ -610,4 +625,50 @@ function startNotificationChecker() {
       }
     });
   }, 1000);
+}
+
+// Đánh giá ứng dụng
+function rateApp(stars) {
+  const starButtons = document.querySelectorAll("#ratingStars button");
+  starButtons.forEach((btn, index) => {
+    btn.textContent = index < stars ? "🩷" : "🩶";
+  });
+
+  // Phản hồi theo số sao
+  let message = "";
+  switch (stars) {
+    case 1:
+      message = "😥 Rất tiếc nếu bạn chưa hài lòng! Chúng mình sẽ cố gắng hơn.";
+      break;
+    case 2:
+      message = "😶 Cảm ơn bạn! Chúng mình sẽ cải thiện nhiều hơn nữa.";
+      break;
+    case 3:
+      message = "🙂 Cảm ơn phản hồi của bạn!";
+      break;
+    case 4:
+      message = "😄 Tuyệt vời! Rất vui khi bạn hài lòng.";
+      break;
+    case 5:
+      message = "🎉 Tuyệt đỉnh! Cảm ơn bạn rất nhiều ❤️";
+      break;
+    default:
+      message = "Cảm ơn bạn đã đánh giá!";
+  }
+
+  alert(message);
+}
+
+// Thay đổi ngôn ngữ
+function changeLanguage() {
+  const lang = document.getElementById("languageSelect").value;
+
+  if (lang === "English") {
+    alert("🌐 English version is under development!");
+    return;
+  } else {
+    localStorage.setItem("language", lang);
+    alert(`🌐 Ngôn ngữ đã chuyển sang: ${lang}`);
+    return;
+  }
 }
