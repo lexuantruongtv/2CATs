@@ -5,6 +5,7 @@ const scheduleSchema = new mongoose.Schema({
   title: String,
   datetime: String,
   description: String,
+  notify: { type: Boolean, default: false } 
 });
 
 const accountSchema = new mongoose.Schema({

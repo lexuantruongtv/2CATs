@@ -4,6 +4,8 @@ let schedules = [];
 let currentMonth = 4;
 let currentYear = 2025;
 let editingKey = null;
+let notifiedEvents = new Set();
+let notificationInterval = null;
 
 const monthNames = ["Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"];
 
@@ -150,6 +152,7 @@ window.onload = async () => {
     await fetchSchedules();
     renderCalendar();
     setupYearSelect();
+    startNotificationChecker();
   }
 };
 
@@ -235,6 +238,7 @@ async function fetchSchedules() {
     const data = await res.json();
     if (res.ok) {
       schedules = data.schedules;
+      notifiedEvents = new Set();
     } else {
       alert(`❌ Lỗi: ${data.error}`);
     }
@@ -248,6 +252,7 @@ async function saveEvent() {
   const title = document.getElementById("titleInput").value;
   const datetime = document.getElementById("timeInput").value;
   const description = document.getElementById("descInput").value;
+  const notify = document.getElementById("notifyInput").checked;
   const token = localStorage.getItem("token");
 
   if (!title || !datetime) return alert("Nhập tiêu đề và thời gian!");
@@ -261,7 +266,7 @@ async function saveEvent() {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
         },
-        body: JSON.stringify({ title, datetime, description })
+        body: JSON.stringify({ title, datetime, description, notify })
       });
     } else {
       res = await fetch(`${apiUrl}/accounts/${userId}/schedules`, {
@@ -270,7 +275,7 @@ async function saveEvent() {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
         },
-        body: JSON.stringify({ title, datetime, description })
+        body: JSON.stringify({ title, datetime, description, notify })
       });
     }
 
@@ -295,6 +300,7 @@ function cancelEvent() {
   document.getElementById("titleInput").value = "";
   document.getElementById("timeInput").value = "";
   document.getElementById("descInput").value = "";
+  document.getElementById("notifyInput").checked = false;
   
   editingKey = null;
   closePopup();
@@ -458,6 +464,7 @@ function showPopup(day) {
         <p>📝 <strong>${ev.title}</strong></p>
         <p>🕒 ${new Date(ev.datetime).toLocaleString()}</p>
         <p>📄 ${ev.description || "(Không có mô tả)"}</p>
+        <p>🔔 Nhắc nhở: ${ev.notify ? "Có" : "Không"}</p>
       `;
 
       const btnGroup = document.createElement("div");
@@ -471,6 +478,7 @@ function showPopup(day) {
         document.getElementById("titleInput").value = ev.title;
         document.getElementById("timeInput").value = ev.datetime.slice(0, 16);
         document.getElementById("descInput").value = ev.description;
+        document.getElementById("notifyInput").checked = ev.notify || false;
         editingKey = ev.id;
         showTab("eventForm");
         closePopup();
@@ -498,6 +506,7 @@ function showPopup(day) {
     document.getElementById("titleInput").value = "";
     document.getElementById("descInput").value = "";
     document.getElementById("timeInput").value = `${currentYear}-${String(currentMonth+1).padStart(2, '0')}-${String(day).padStart(2, '0')}T09:00`;
+    document.getElementById("notifyInput").checked = false;
     editingKey = null;
     showTab("eventForm");
     closePopup();
@@ -551,6 +560,11 @@ async function changePassword() {
     return;
   }
 
+  if (currentPassword == newPassword) {
+    alert('Mật khẩu cũ bị trùng với mật khẩu mới!');
+    return;
+  }
+
   if (!token) {
     alert("❌ Bạn chưa đăng nhập!");
     return;
@@ -574,4 +588,26 @@ async function changePassword() {
   } else {
     alert(`❌ Lỗi khi đổi mật khẩu! ${data.message}`);
   }
+}
+
+function startNotificationChecker() {
+  if (notificationInterval) clearInterval(notificationInterval);
+  notifiedEvents = new Set();
+
+  notificationInterval = setInterval(() => {
+    const now = new Date();
+    const nowStr = now.toISOString().slice(0, 16);
+
+    schedules.forEach(event => {
+      const eventTimeStr = new Date(event.datetime).toISOString().slice(0, 16);
+      if (
+        event.notify &&
+        !notifiedEvents.has(event.id) &&
+        eventTimeStr === nowStr
+      ) {
+        alert(`🔔 Nhắc nhở: ${event.title}\n🕒 Thời gian: ${new Date(event.datetime).toLocaleString()}\n📄 Nội dung: ${event.description || "(Không có mô tả)"}`);
+        notifiedEvents.add(event.id);
+      }
+    });
+  }, 1000);
 }

@@ -24,7 +24,7 @@ const deleteAccount = async (username) => {
   return Account.deleteOne({ username });
 };
 
-const addSchedule = async (username, { title, datetime, description }) => {
+const addSchedule = async (username, { title, datetime, description, notify}) => {
   const acc = await Account.findOne({ username });
   if (!acc) throw new Error("Không tìm thấy User");
 
@@ -36,7 +36,7 @@ const addSchedule = async (username, { title, datetime, description }) => {
     throw new Error("Lịch trình đã tồn tại");
   }
 
-  const schedule = { id, title, datetime, description };
+  const schedule = { id, title, datetime, description, notify };
   acc.schedules.push(schedule);
 
   await acc.save();
@@ -55,7 +55,7 @@ const deleteSchedule = async (username, id) => {
   await acc.save();
 };
 
-const updateSchedule = async (username, id, { title, datetime, description }) => {
+const updateSchedule = async (username, id, { title, datetime, description, notify }) => {
   const acc = await Account.findOne({ username });
   if (!acc) throw new Error("Không tìm thấy User");
 
@@ -65,6 +65,7 @@ const updateSchedule = async (username, id, { title, datetime, description }) =>
   if (title !== undefined) acc.schedules[index].title = title;
   if (datetime !== undefined) acc.schedules[index].datetime = datetime;
   if (description !== undefined) acc.schedules[index].description = description;
+  if (notify !== undefined) acc.schedules[index].notify = notify;
 
   await acc.save();
   return acc.schedules[index];

@@ -39,24 +39,28 @@
       <button class="hover:bg-[#FFACC9] dark:hover:bg-pink-500" onclick="changeMonth(1)">➡️</button>
       <select id="yearSelect" onchange="changeYear(this.value)" class="ml-2 rounded px-2 py-1 bg-white dark:bg-gray-700 shadow text-sm dark:text-white"></select>
     </div>
-    <div class="grid grid-cols-4 gap-2 mb-4">
+    <!-- <div class="grid grid-cols-4 gap-2 mb-4">
       <button class="bg-white dark:bg-gray-700 px-4 py-1 rounded shadow text-sm font-medium hover:bg-[#FFACC9] dark:hover:bg-pink-500 dark:text-white">Tháng</button>
       <button class="bg-white dark:bg-gray-700 px-4 py-1 rounded shadow text-sm font-medium hover:bg-[#FFACC9] dark:hover:bg-pink-500 dark:text-white">Tuần</button>
       <button class="bg-white dark:bg-gray-700 px-4 py-1 rounded shadow text-sm font-medium hover:bg-[#FFACC9] dark:hover:bg-pink-500 dark:text-white">Năm</button>
       <button class="bg-white dark:bg-gray-700 px-4 py-1 rounded shadow text-sm font-medium hover:bg-[#FFACC9] dark:hover:bg-pink-500 dark:text-white">Danh sách</button>
-    </div>
+    </div> -->
     <div id="calendarGrid" class="grid grid-cols-7 gap-1 text-center text-sm"></div>
   </div>
 
   <!-- Tab: Tạo sự kiện -->
   <div id="eventFormTab" class="w-full max-w-md hidden bg-white dark:bg-gray-800 rounded p-4 shadow">
     <h2 class="text-xl font-bold mb-4 text-center text-black dark:text-white">Tạo sự kiện</h2>
-    <label class="block mb-2 text-black dark:text-white">Tiêu đề:</label>
+    <label class="block mb-2 text-black dark:text-white">📝 Tiêu đề:</label>
     <input id="titleInput" type="text" class="w-full border rounded p-2 mb-4 bg-white dark:bg-gray-700 text-black dark:text-white" placeholder="Nhập tiêu đề..." />
-    <label class="block mb-2 text-black dark:text-white">Ngày & Giờ:</label>
+    <label class="block mb-2 text-black dark:text-white">🕒 Ngày & Giờ:</label>
     <input id="timeInput" type="datetime-local" class="w-full border rounded p-2 mb-4 bg-white dark:bg-gray-700 text-black dark:text-white" />
-    <label class="block mb-2 text-black dark:text-white">Mô tả:</label>
+    <label class="block mb-2 text-black dark:text-white">📄 Mô tả:</label>
     <textarea id="descInput" class="w-full border rounded p-2 mb-4 bg-white dark:bg-gray-700 text-black dark:text-white" rows="3" placeholder="Chi tiết sự kiện"></textarea>
+    <label class="flex items-center gap-2 mb-4 text-black dark:text-white">
+      <span>🔔 Đặt nhắc nhở</span>
+      <input type="checkbox" id="notifyInput" class="w-5 h-5">
+    </label>
     <ul class="space-y-3">
       <li>
         <button onclick="saveEvent()" id="saveEventBtn" class="bg-pink-400 text-white px-4 py-2 rounded w-full hover:bg-pink-500">💾 Lưu</button>
