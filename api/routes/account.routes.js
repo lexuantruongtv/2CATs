@@ -44,7 +44,7 @@ const auth = require("../middlewares/auth");
  *       400:
  *         description: Lỗi tạo tài khoản
  */
-//router.post("/accounts", controller.create);
+
 router.post("/accounts", auth, controller.create);
 
 /**
@@ -66,8 +66,9 @@ router.post("/accounts", auth, controller.create);
  *       404:
  *         description: Không tìm thấy tài khoản
  */
-//router.get("/accounts/:username", controller.get);
+
 router.get("/accounts/:username", auth, controller.get);
+
 /**
  * @swagger
  * /accounts/{username}:
@@ -87,8 +88,9 @@ router.get("/accounts/:username", auth, controller.get);
  *       404:
  *         description: Không tìm thấy tài khoản
  */
-//router.delete("/accounts/:username", controller.delete);
+
 router.delete("/accounts/:username", auth, controller.delete);
+
 /**
  * @swagger
  * /accounts/{username}/schedules:
@@ -123,8 +125,9 @@ router.delete("/accounts/:username", auth, controller.delete);
  *       400:
  *         description: Lỗi thêm lịch trình
  */
-//router.post("/accounts/:username/schedules", controller.addSchedule);
+
 router.post("/accounts/:username/schedules", auth, controller.addSchedule);
+
 /**
  * @swagger
  * /accounts/{username}/schedules/{id}:
@@ -150,8 +153,9 @@ router.post("/accounts/:username/schedules", auth, controller.addSchedule);
  *       404:
  *         description: Không tìm thấy lịch trình
  */
-//router.delete("/accounts/:username/schedules/:id", controller.deleteSchedule);
+
 router.delete("/accounts/:username/schedules/:id", auth, controller.deleteSchedule);
+
 /**
  * @swagger
  * /accounts/{username}/schedules/{id}:
@@ -191,7 +195,7 @@ router.delete("/accounts/:username/schedules/:id", auth, controller.deleteSchedu
  *       400:
  *         description: Lỗi cập nhật lịch trình
  */
-//router.patch("/accounts/:username/schedules/:id", controller.updateSchedule);
+
 router.patch("/accounts/:username/schedules/:id", auth, controller.updateSchedule);
 
 /**
